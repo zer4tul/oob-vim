@@ -94,11 +94,16 @@
 
 " UI
   " Colorscheme
-  if has('gui_running')
-      colorscheme solarized
-  else
-      let g:solarized_termcolors=256
-      colorscheme solarized
+  if filereadable(expand("~/.vim/bundle/vim-colors-solarized/colors/solarized.vim"))
+      if has('gui_running')
+          colorscheme solarized
+      else
+          let g:solarized_termcolors=256
+          colorscheme solarized
+      endif
+        let g:solarized_termtrans=0
+        let g:solarized_contrast="high"
+        let g:solarized_visibility="high"
   endif
   
   " Use mouse
@@ -496,6 +501,7 @@
     Bundle 'klen/python-mode.git'
     Bundle 'Shougo/neocomplcache'
     Bundle 'scrooloose/nerdcommenter'
+    Bundle 'flazz/vim-colorschemes'
     " vim-scripts repos
     Bundle 'L9'
     Bundle 'FuzzyFinder'
