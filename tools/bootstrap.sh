@@ -11,22 +11,30 @@ die() {
     exit 1
 }
 
-echo "thanks for installing zer4tul-vim"
+echo "================================="
+echo "Thanks for installing zer4tul-vim"
+echo "================================="
 
 # Backup existing .vim stuff
-echo "backing up current vim config"
+echo "============================="
+echo "Backing up current vim config"
+echo "============================="
 today=`date +%Y%m%d`
 for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc; do [ -e $i ] && mv $i $i.$today; done
 
 
-echo "cloning zer4tul-vim\n"
+echo "==================="
+echo "Cloning zer4tul-vim"
+echo "==================="
 git clone --recursive http://github.com/zer4tul/vim-config.git $endpath
 mkdir -p $endpath/.vim/bundle
-ln -s $endpath/vimrc $HOME/.vimrc
-ln -s $endpath $HOME/.vim
+ln -sf $endpath/vimrc $HOME/.vimrc
+ln -sf $endpath $HOME/.vim
 
 echo "Installing Vundle"
 git clone http://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
 
 echo "installing plugins using Vundle"
 vim +BundleInstall! +BundleClean +qa
+reset
+reset
