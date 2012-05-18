@@ -1,0 +1,10 @@
+systags
+*~
+bundle
+.DS_Store
+*.pyc
+*._*
+tags
+wordlists
+.VimballRecord
+.netrwhist
