@@ -11,10 +11,10 @@ die() {
     exit 1
 }
 
-echo "thanks for installing zer4tul-vim\n"
+echo "thanks for installing zer4tul-vim"
 
 # Backup existing .vim stuff
-echo "backing up current vim config\n"
+echo "backing up current vim config"
 today=`date +%Y%m%d`
 for i in $HOME/.vim $HOME/.vimrc $HOME/.gvimrc; do [ -e $i ] && mv $i $i.$today; done
 
@@ -25,10 +25,8 @@ mkdir -p $endpath/.vim/bundle
 ln -s $endpath/vimrc $HOME/.vimrc
 ln -s $endpath $HOME/.vim
 
-echo "Installing submodules"
-cd $HOME/.vim || exit 1
-git submodule init
-git submodule update
+echo "Installing Vundle"
+git clone http://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
 
 echo "installing plugins using Vundle"
-vim +BundleInstall! +BundleClean +q
+vim -u "NONE" +BundleInstall! +BundleClean +q
