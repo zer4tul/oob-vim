@@ -25,5 +25,5 @@ Installation:
 Note:
 -----
 
-* Till now, the installation method all above are for Unix-like systems ONLY. I'll add the installation method for M$ Windows later.
+* The installation method all above are ONLY FOR UNIX-LIKE SYSTEMS. I'll add the installation method for M$ Windows later.
 * The color scheme used by default in the config file is [Solarized](http://ethanschoonover.com/solarized). If you don't like it, you may take a look at [here](http://www.vim.org/scripts/script.php?script_id=625), and manually install the color schemes to .vim.
