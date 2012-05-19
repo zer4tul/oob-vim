@@ -482,6 +482,12 @@
         au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
         set completeopt=menu,preview,longest
 
+    " rfc.vim
+    " The following line will make Vim recognize all files with name rfcXXXX as RFC file
+    if expand('%:t') =~? 'rfcd+'
+        setfiletype rfc
+    endif
+
     " for cscope
         if has("cscope")
             set csprg=/usr/bin/cscope
@@ -507,7 +513,7 @@
             let g:Powerline_symbols = 'compatible'
         endif
 
-    " Vundel
+    " Vundle
         filetype off                   " required!
         set rtp+=~/.vim/bundle/vundle/
         call vundle#rc()
@@ -533,6 +539,7 @@
         Bundle 'scrooloose/nerdcommenter'
         Bundle 'flazz/vim-colorschemes'
         Bundle 'scrooloose/syntastic'
+        Bundle 'zer4tul/rfc.vim'
         if executable('ctags')
             Bundle 'majutsushi/tagbar'
         endif
