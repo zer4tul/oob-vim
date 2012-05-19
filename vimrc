@@ -529,6 +529,7 @@
         Bundle 'wincent/Command-T.git'
         Bundle 'klen/python-mode.git'
         Bundle 'Shougo/neocomplcache'
+        Bundle 'Shougo/neocomplcache-snippets-complete'
         Bundle 'scrooloose/nerdcommenter'
         Bundle 'flazz/vim-colorschemes'
         Bundle 'scrooloose/syntastic'
