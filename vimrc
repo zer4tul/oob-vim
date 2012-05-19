@@ -438,7 +438,7 @@
     imap <F6> <C-R>=strftime("%Y-%m-%d %H:%M:%S")<CR>
 
     " Tag list toggle
-    nmap <F12> :TlistToggle<CR>
+    nmap <F8> :TagbarToggle<CR>
 
     " Resizing windows
     nmap <C-F9> :resize -1<CR>
@@ -533,6 +533,9 @@
         Bundle 'scrooloose/nerdcommenter'
         Bundle 'flazz/vim-colorschemes'
         Bundle 'scrooloose/syntastic'
+        if executable('ctags')
+            Bundle 'majutsushi/tagbar'
+        endif
         " vim-scripts repos
         Bundle 'L9'
         Bundle 'FuzzyFinder'
