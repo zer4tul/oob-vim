@@ -35,13 +35,19 @@ Note:
 * The color scheme used by default in the config file is `Solarized`_. And included `flazz's vim-colorschemes colletion`_. If you don't like it, you can spicify another.
 
 Special Thanks To
------------------
+=================
 * gmarik for `vundle`_. Which makes plugin managment much more easier.
 * klen for `python-mode`_. Which makes creating python code in vim much more interesting.
 * spf13 for his ultra vim config: `spf13-vim`_. It's really awesome. Lot's of settings in this configuration comes from his vimrc file.
+
+Reference
+=========
+* Vim keyboard cheatsheet
+  |keyboard_cheatsheet|
 
 .. _Solarized: http://ethanschoonover.com/solarized
 .. _flazz's vim-colorschemes colletion: https://github.com/flazz/vim-colorschemes
 .. _vundle: https://github.com/gmarik/vundle
 .. _python-mode: https://github.com/klen/python-mode
 .. _spf13-vim: https://github.com/spf13/spf13-vim
+.. |keyboard_cheatsheet| image:: http://walking-without-crutches.heroku.com/image/images/vi-vim-cheat-sheet.png 
