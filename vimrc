@@ -459,6 +459,29 @@
         let g:BASH_UserWWW = 'http://www.baidu.com'
         let g:BASH_Company = 'Baidu, Inc.'
 
+    " OmniComplete
+        if has("autocmd") && exists("+omnifunc")
+            autocmd Filetype *
+                \if &omnifunc == "" |
+                \setlocal omnifunc=syntaxcomplete#Complete |
+                \endif
+        endif
+        hi Pmenu  guifg=#000000 guibg=#F8F8F8 ctermfg=gray ctermbg=darkgray
+        hi PmenuSbar  guifg=#8A95A7 guibg=#F8F8F8 gui=NONE ctermfg=darkcyan ctermbg=lightgray cterm=NONE
+        hi PmenuThumb  guifg=#F8F8F8 guibg=#8A95A7 gui=NONE ctermfg=lightgray ctermbg=darkcyan cterm=NONE
+
+        " some convenient mappings
+        inoremap <expr> <Esc>      pumvisible() ? "\<C-e>" : "\<Esc>"
+        inoremap <expr> <CR>       pumvisible() ? "\<C-y>" : "\<CR>"
+        inoremap <expr> <Down>     pumvisible() ? "\<C-n>" : "\<Down>"
+        inoremap <expr> <Up>       pumvisible() ? "\<C-p>" : "\<Up>"
+        inoremap <expr> <C-d>      pumvisible() ? "\<PageDown>\<C-p>\<C-n>" : "\<C-d>"
+        inoremap <expr> <C-u>      pumvisible() ? "\<PageUp>\<C-p>\<C-n>" : "\<C-u>"
+
+        " automatically open and close the popup menu / preview window
+        au CursorMovedI,InsertLeave * if pumvisible() == 0|silent! pclose|endif
+        set completeopt=menu,preview,longest
+
     " for cscope
         if has("cscope")
             set csprg=/usr/bin/cscope
@@ -508,12 +531,14 @@
         Bundle 'Shougo/neocomplcache'
         Bundle 'scrooloose/nerdcommenter'
         Bundle 'flazz/vim-colorschemes'
+        Bundle 'scrooloose/syntastic'
         " vim-scripts repos
         Bundle 'L9'
         Bundle 'FuzzyFinder'
         Bundle 'bash-support.vim'
         Bundle 'python_match.vim'
         Bundle 'pythoncomplete'
+        Bundle 'c.vim'
         " non github repos
         "Bundle 'git://git.wincent.com/command-t.git'
         " ...
@@ -549,6 +574,8 @@
         " Set minimum syntax keyword length.
         let g:neocomplcache_min_syntax_length = 3
         let g:neocomplcache_lock_buffer_name_pattern = '\*ku\*'
+        " Auto insert delimiter ('/' for filename, '#' for vim file)
+        let g:neocomplcache_enable_auto_delimiter = 1
 
         " Define dictionary.
         let g:neocomplcache_dictionary_filetype_lists = {
@@ -568,7 +595,7 @@
         inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
         " SuperTab like snippets behavior.
-        "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+        imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
         " Recommended key-mappings.
         " <CR>: close popup and save indent.
@@ -607,6 +634,11 @@
         let g:neocomplcache_omni_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
         let g:neocomplcache_omni_patterns.c = '\%(\.\|->\)\h\w*'
         let g:neocomplcache_omni_patterns.cpp = '\h\w*\%(\.\|->\)\h\w*\|\h\w*::'
+
+        " For snippet_complete marker.
+        if has('conceal')
+            set conceallevel=2 concealcursor=i
+        endif
 
 " Functions
     "A function that inserts links & anchors on a TOhtml export.
