@@ -101,7 +101,7 @@
             let g:solarized_termcolors=256
             colorscheme solarized
         endif
-        let g:solarized_termtrans=1
+        let g:solarized_termtrans=0
         let g:solarized_contrast="high"
         let g:solarized_visibility="high"
     endif
@@ -405,10 +405,10 @@
     vnoremap ' <esc>`>a'<esc>`<i'<esc>
 
     "Map auto complete of (, ", ', [
-    inoremap ( ()<Esc>:let leavechar=")"<CR>i
-    inoremap [ []<Esc>:let leavechar="]"<CR>i
-    inoremap { {}<Esc>:let leavechar="}"<CR>i
-    inoremap < <><Esc>:let leavechar=">"<CR>i
+    "inoremap ( ()<Esc>:let leavechar=")"<CR>i
+    "inoremap [ []<Esc>:let leavechar="]"<CR>i
+    "inoremap { {}<Esc>:let leavechar="}"<CR>i
+    "inoremap < <><Esc>:let leavechar=">"<CR>i
 
     " Moving around and tabs
     " Closed by default, cause I never use tabs
