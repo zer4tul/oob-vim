@@ -142,7 +142,8 @@
     endif
 
     "Set 7 lines to the curors - when moving vertical..
-    set so=7
+    " -- Disabled, seems it will increase cpu usage when moving vertical
+    "set so=7
 
     "Turn on wild menu
     set wildmenu
@@ -298,9 +299,9 @@
 
     " python
         " Auto use template file when create a new python file
-        autocmd BufNewFile test*.py 0r ~/.vim/templates/test.py
-        autocmd BufNewFile alltests.py 0r ~/.vim/templates/alltests.py
-        autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
+"        autocmd BufNewFile test*.py 0r ~/.vim/templates/test.py
+"        autocmd BufNewFile alltests.py 0r ~/.vim/templates/alltests.py
+"        autocmd BufNewFile *.py 0r ~/.vim/templates/skeleton.py
         autocmd FileType python set tabstop=4
         autocmd FileType python set softtabstop=4
         autocmd FileType python set shiftwidth=4
@@ -543,6 +544,17 @@
         if executable('ctags')
             Bundle 'majutsushi/tagbar'
         endif
+        Bundle 'garbas/vim-snipmate'
+        " vim-snipmate depends on vim-addon-mw-utils and tlib_vim, snipmate-snippets provides most complete snippets for it.
+        Bundle 'zer4tul/snipmate-snippets'
+        Bundle 'MarcWeber/vim-addon-mw-utils'                                                                                                                                                                   
+        Bundle 'tomtom/tlib_vim'
+        " Source support_function.vim to support snipmate-snippets.
+        if filereadable(expand("~/.vim/bundle/snipmate-snippets/snippets/support_functions.vim"))                                                                                                           
+            source ~/.vim/bundle/snipmate-snippets/snippets/support_functions.vim
+        endif
+        
+
         " vim-scripts repos
         Bundle 'L9'
         Bundle 'FuzzyFinder'
@@ -550,6 +562,7 @@
         Bundle 'python_match.vim'
         Bundle 'pythoncomplete'
         Bundle 'c.vim'
+        Bundle 'VimIM'
         " non github repos
         "Bundle 'git://git.wincent.com/command-t.git'
         " ...
@@ -572,6 +585,7 @@
         endif
 
     " neocomplcache
+
         " Disable AutoComplPop.
         let g:acp_enableAtStartup = 0
         " Use neocomplcache.
@@ -650,6 +664,13 @@
         if has('conceal')
             set conceallevel=2 concealcursor=i
         endif
+
+        " SnipMate {
+            " Setting the author var
+            " If forking, please overwrite in your .vimrc.local file                                                                                                                                                
+            let g:snips_author = 'Zer4tul Ke <zer4tul@gmail.com>'
+        " }
+
 
 " Functions
     "A function that inserts links & anchors on a TOhtml export.
