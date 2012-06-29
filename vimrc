@@ -536,7 +536,7 @@
         Bundle 'wincent/Command-T.git'
         Bundle 'klen/python-mode.git'
         Bundle 'Shougo/neocomplcache'
-        Bundle 'Shougo/neocomplcache-snippets-complete'
+        "Bundle 'Shougo/neocomplcache-snippets-complete'
         Bundle 'scrooloose/nerdcommenter'
         Bundle 'flazz/vim-colorschemes'
         Bundle 'scrooloose/syntastic'
@@ -620,7 +620,7 @@
         inoremap <expr><C-l>     neocomplcache#complete_common_string()
 
         " SuperTab like snippets behavior.
-        imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+        "imap <expr><TAB> neocomplcache#sources#snippets_complete#expandable() ? "\<Plug>(neocomplcache_snippets_expand)" : pumvisible() ? "\<C-n>" : "\<TAB>"
 
         " Recommended key-mappings.
         " <CR>: close popup and save indent.
