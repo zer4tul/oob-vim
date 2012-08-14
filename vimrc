@@ -667,7 +667,7 @@
 
         " SnipMate {
             " Setting the author var
-            " If forking, please overwrite in your .vimrc.local file                                                                                                                                                
+            " If forking, please overwrite in your .vimrc.local file
             let g:snips_author = 'Zer4tul Ke <zer4tul@gmail.com>'
         " }
 
