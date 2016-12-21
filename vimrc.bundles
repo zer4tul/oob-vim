@@ -72,7 +72,6 @@ Plug 'fatih/vim-go'
 
 " Auto-completion & snippet
 Plug 'Shougo/neocomplete.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
 Plug 'Shougo/neosnippet'
 Plug 'Shougo/neosnippet-snippets'
 "Plug 'Valloric/YouCompleteMe'
@@ -86,6 +85,11 @@ Plug 'honza/vim-snippets'
 " markdown preview
 Plug 'JamshedVesuna/vim-markdown-preview'
 Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+
+" NeoVim only
+if has("nvim")
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+endif
 
 " Use local settings if available
 if filereadable(expand("~/.vimrc.bundles.local"))

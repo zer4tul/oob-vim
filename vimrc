@@ -204,7 +204,7 @@ noremap <C-l> <C-w>l
 "inoremap jk <Esc>
 
 noremap <leader>l :Align
-nnoremap <leader>/ :Ack<space>
+nnoremap <leader>/ :Ack!<space>
 nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <leader>d :NERDTreeToggle<CR>
 nnoremap <leader>f :NERDTreeFind<CR>
