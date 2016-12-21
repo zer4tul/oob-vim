@@ -1,6 +1,7 @@
 systags
 *~
 bundle
+plugged
 .DS_Store
 *.pyc
 *._*
