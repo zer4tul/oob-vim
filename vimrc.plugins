@@ -1,5 +1,5 @@
 " vim-airline
-if isdirectory(expand("~/.vim/bundle/vim-airline/"))
+if isdirectory(expand("~/.vim/plugged/vim-airline/"))
     if !exists('g:airline_powerline_fonts')
         " Do not use powerline fonts
         let g:airline_powerline_fonts=0
@@ -38,7 +38,7 @@ endif
 " at every startup to remove the AlignMaps for the *next* vim startup.
 "
 " If you do want the AlignMaps mappings, remove this section, remove
-" ~/.vim/bundle/Align, and re-run rake in maximum-awesome.
+" ~/.vim/plugged/Align, and re-run rake in maximum-awesome.
 function! s:RemoveConflictingAlignMaps()
     if exists("g:loaded_AlignMapsPlugin")
         AlignMapsClean
@@ -155,8 +155,8 @@ else
     let g:neosnippet#enable_snipmate_compatibility = 1
 
     " Tell Neosnippet about the other snippets
-    if isdirectory(expand('~/.vim/bundle/vim-snippets/snippets'))
-        let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+    if isdirectory(expand('~/.vim/plugged/vim-snippets/snippets'))
+        let g:neosnippet#snippets_directory='~/.vim/plugged/vim-snippets/snippets'
     endif
 
     " SuperTab like snippets behavior.
@@ -186,7 +186,7 @@ au FileType go nmap <Leader>t <Plug>(go-test)
 au FileType go nmap gd <Plug>(go-def-tab)
 
 " Tagbar settings
-if isdirectory(expand("~/.vim/bundle/tagbar/"))
+if isdirectory(expand("~/.vim/plugged/tagbar/"))
     let g:tagbar_type_go = {
           \ 'ctagstype' : 'go',
           \ 'kinds'     : [
@@ -230,34 +230,14 @@ if has('persistent_undo')
     " Maximum number lines to save for undo on a buffer reload
     set undoreload=10000
 endif
-if isdirectory(expand("~/.vim/bundle/undotree/"))
+if isdirectory(expand("~/.vim/plugged/undotree/"))
     nnoremap <Leader>u :UndotreeToggle<CR>
     " If undotree is opened, it is likely one wants to interact with it.
     let g:undotree_SetFocusWhenToggle=1
 endif
 
-" Tabularize {
-if isdirectory(expand("~/.vim/bundle/tabular"))
-    nmap <Leader>a& :Tabularize /&<CR>
-    vmap <Leader>a& :Tabularize /&<CR>
-    nmap <Leader>a= :Tabularize /=<CR>
-    vmap <Leader>a= :Tabularize /=<CR>
-    nmap <Leader>a=> :Tabularize /=><CR>
-    vmap <Leader>a=> :Tabularize /=><CR>
-    nmap <Leader>a: :Tabularize /:<CR>
-    vmap <Leader>a: :Tabularize /:<CR>
-    nmap <Leader>a:: :Tabularize /:\zs<CR>
-    vmap <Leader>a:: :Tabularize /:\zs<CR>
-    nmap <Leader>a, :Tabularize /,<CR>
-    vmap <Leader>a, :Tabularize /,<CR>
-    nmap <Leader>a,, :Tabularize /,\zs<CR>
-    vmap <Leader>a,, :Tabularize /,\zs<CR>
-    nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-    vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
-endif
-
 " ctrlp
-    if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
+    if isdirectory(expand("~/.vim/plugged/ctrlp.vim/"))
         let g:ctrlp_working_path_mode = 'ra'
         nnoremap <silent> <D-t> :CtrlP<CR>
         nnoremap <silent> <D-r> :CtrlPMRU<CR>
@@ -285,6 +265,8 @@ endif
             \ 'fallback': s:ctrlp_fallback
         \ }
     endif
+    " show hidden file
+    let g:ctrlp_show_hidden = 1
 
 " jedi-vim
 " do not popup the docstring window during completion
@@ -304,7 +286,7 @@ let g:wildfire_objects = {
 nmap <leader>s <Plug>(wildfire-quick-select)
 
 " vim-indent-guides
-if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
+if isdirectory(expand("~/.vim/plugged/vim-indent-guides/"))
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
     let g:indent_guides_enable_on_vim_startup = 1
