@@ -1,7 +1,7 @@
 # Out of Box VIM Configration
 
 ## Description
-oob-vim is a set of configurations for Vim, Gvim and [MacVim].
+oob-vim is a set of configurations for Vim, [NeoVim][Neovim], Gvim and [MacVim].
 
 It makes Vim works out of the box for Unix-like systems, and **maybe** on Windows ( not tested ), too.
 
@@ -53,9 +53,10 @@ It makes Vim works out of the box for Unix-like systems, and **maybe** on Window
 ## Reference
 * Vim keyboard cheatsheet
 
-  ![keyboard_cheatsheet](http://walking-without-crutches.heroku.com/image/images/vi-vim-cheat-sheet.png)
+  ![keyboard_cheatsheet](http://idarkside.org/images/vi-vim-cheat-sheet.svg)
 
-[MacVim]:http://code.google.com/p/macvim/
+[Neovim]:https://neovim.io
+[MacVim]:http://macvim.org
 [Base16]: https://github.com/chriskempson/base16-vim
 [wombat256]: http://www.vim.org/scripts/script.php?script_id=2465
 [wombat]: http://www.vim.org/scripts/script.php?script_id=1778
