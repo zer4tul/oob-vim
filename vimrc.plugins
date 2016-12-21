@@ -1,0 +1,314 @@
+" vim-airline
+if isdirectory(expand("~/.vim/bundle/vim-airline/"))
+    if !exists('g:airline_powerline_fonts')
+        " Do not use powerline fonts
+        let g:airline_powerline_fonts=0
+        " Use the default set of separators with a few customizations
+        " unicode symbols
+        if !exists('g:airline_symbols')
+            let g:airline_symbols = {}
+        endif
+        let g:airline_left_sep='›'  " Slightly fancier than '>'
+        let g:airline_right_sep='‹' " Slightly fancier than '<'
+"        let g:airline_left_sep = '▶'
+"        let g:airline_right_sep = '◀'
+"        let g:airline_symbols.linenr = '␊'
+"        let g:airline_symbols.linenr = '␤'
+"        let g:airline_symbols.linenr = '¶'
+"        let g:airline_symbols.branch = '⎇'
+"        let g:airline_symbols.paste = 'ρ'
+"        let g:airline_symbols.paste = 'Þ'
+"        let g:airline_symbols.paste = '∥'
+"        let g:airline_symbols.whitespace = 'Ξ'
+    endif
+endif
+"let g:airline#extensions#tabline#enabled = 1
+"let g:airline#extensions#default#section_truncate_width = {
+"    \ 'b': 79,
+"    \ 'x': 60,
+"    \ 'y': 88,
+"    \ 'z': 45,
+"    \ }
+
+" Align
+" Disambiguate ,a & ,t from the Align plugin, making them fast again.
+"
+" This section is here to prevent AlignMaps from adding a bunch of mappings
+" that interfere with the very-common ,a and ,t mappings. This will get run
+" at every startup to remove the AlignMaps for the *next* vim startup.
+"
+" If you do want the AlignMaps mappings, remove this section, remove
+" ~/.vim/bundle/Align, and re-run rake in maximum-awesome.
+function! s:RemoveConflictingAlignMaps()
+    if exists("g:loaded_AlignMapsPlugin")
+        AlignMapsClean
+    endif
+endfunction
+command! -nargs=0 RemoveConflictingAlignMaps call s:RemoveConflictingAlignMaps()
+silent! autocmd VimEnter * RemoveConflictingAlignMaps
+
+" if it is neovim run deoplete
+if has("nvim")
+    " deoplete.nvim recommend
+    set completeopt+=noselect
+
+    " Run deoplete.nvim automatically
+    let g:deoplete#enable_at_startup = 1
+
+" else in vim, run neocomplete
+else
+
+    " Neocomplete settings
+    set completeopt+=noinsert
+    " Disable AutoComplPop.
+    let g:acp_enableAtStartup = 0
+    " Use neocomplete.
+    let g:neocomplete#enable_at_startup = 1
+    " Use smartcase.
+    let g:neocomplete#enable_smart_case = 1
+    " Set minimum syntax keyword length.
+    let g:neocomplete#sources#syntax#min_keyword_length = 3
+    let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+    " Define dictionary.
+    let g:neocomplete#sources#dictionary#dictionaries = {
+                \ 'default' : '',
+                \ 'vimshell' : $HOME.'/.vimshell_hist',
+                \ 'scheme' : $HOME.'/.gosh_completions'
+                \ }
+
+    " Define keyword.
+    if !exists('g:neocomplete#keyword_patterns')
+        let g:neocomplete#keyword_patterns = {}
+    endif
+    let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+    " Plugin key-mappings.
+    inoremap <expr><C-g>     neocomplete#undo_completion()
+    inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+    " Recommended key-mappings.
+    " <CR>: close popup and save indent.
+    inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+    function! s:my_cr_function()
+        return neocomplete#close_popup() . "\<CR>"
+        " For no inserting <CR> key.
+        "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+    endfunction
+    " <TAB>: completion.
+    inoremap <expr><TAB> pumvisible() ? "\<C-n>" : "\<TAB>"
+    inoremap <expr><S-TAB> pumvisible() ? "\<C-p>" : "\<TAB>"
+    " <C-h>, <BS>: close popup and delete backword char.
+    inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+    inoremap <expr><C-y>  neocomplete#close_popup()
+    inoremap <expr><C-e>  neocomplete#cancel_popup()
+    " Close popup by <Space>.
+    "inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
+    " For cursor moving in insert mode(Not recommended)
+    "inoremap <expr><Left>  neocomplete#close_popup() . "\<Left>"
+    "inoremap <expr><Right> neocomplete#close_popup() . "\<Right>"
+    "inoremap <expr><Up>    neocomplete#close_popup() . "\<Up>"
+    "inoremap <expr><Down>  neocomplete#close_popup() . "\<Down>"
+    " Or set this.
+    "let g:neocomplete#enable_cursor_hold_i = 1
+    " Or set this.
+    "let g:neocomplete#enable_insert_char_pre = 1
+
+    " AutoComplPop like behavior.
+    "let g:neocomplete#enable_auto_select = 1
+
+    " Shell like behavior(not recommended).
+    "set completeopt+=longest
+    "let g:neocomplete#enable_auto_select = 1
+    "let g:neocomplete#disable_auto_complete = 1
+    "inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+    " Enable omni completion.
+    autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+    autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+    autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+    autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+    autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+    " Enable heavy omni completion.
+    if !exists('g:neocomplete#sources#omni#input_patterns')
+        let g:neocomplete#sources#omni#input_patterns = {}
+    endif
+    "let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+    "let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+    "let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+    "" Plugin key-mappings.
+    "imap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    "smap <C-k>     <Plug>(neosnippet_expand_or_jump)
+    "xmap <C-k>     <Plug>(neosnippet_expand_target)
+
+    " Neosnippet
+    " For snippet_complete marker.
+    if has('conceal')
+        set conceallevel=2 concealcursor=i
+    endif
+
+    " Enable snipMate compatibility feature.
+    let g:neosnippet#enable_snipmate_compatibility = 1
+
+    " Tell Neosnippet about the other snippets
+    if isdirectory(expand('~/.vim/bundle/vim-snippets/snippets'))
+        let g:neosnippet#snippets_directory='~/.vim/bundle/vim-snippets/snippets'
+    endif
+
+    " SuperTab like snippets behavior.
+    imap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+                \ "\<Plug>(neosnippet_expand_or_jump)"
+                \: pumvisible() ? "\<C-n>" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ?
+                \ "\<Plug>(neosnippet_expand_or_jump)"
+                \: "\<TAB>"
+endif
+
+" vim-go settings
+"" Enable syntax-highlighting for Functions, Methods and Structs
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 1
+let g:go_highlight_structs = 1
+
+"" Replacing fmt with goimports
+let g:go_fmt_command = "goimports"
+
+" Go related mappings
+au FileType go nmap <Leader>i <Plug>(go-info)
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>r <Plug>(go-run)
+au FileType go nmap <Leader>b <Plug>(go-build)
+au FileType go nmap <Leader>t <Plug>(go-test)
+au FileType go nmap gd <Plug>(go-def-tab)
+
+" Tagbar settings
+if isdirectory(expand("~/.vim/bundle/tagbar/"))
+    let g:tagbar_type_go = {
+          \ 'ctagstype' : 'go',
+          \ 'kinds'     : [
+          \ 'p:package',
+          \ 'i:imports:1',
+          \ 'c:constants',
+          \ 'v:variables',
+          \ 't:types',
+          \ 'n:interfaces',
+          \ 'w:fields',
+          \ 'e:embedded',
+          \ 'm:methods',
+          \ 'r:constructor',
+          \ 'f:functions'
+          \ ],
+          \ 'sro' : '.',
+          \ 'kind2scope' : {
+          \ 't' : 'ctype',
+          \ 'n' : 'ntype'
+          \ },
+          \ 'scope2kind' : {
+          \ 'ctype' : 't',
+          \ 'ntype' : 'n'
+          \ },
+          \ 'ctagsbin'  : 'gotags',
+          \ 'ctagsargs' : '-sort -silent'
+          \ }
+endif
+
+" ack.vim ( default use ag if exists )
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+
+" undotree
+set backup
+if has('persistent_undo')
+    set undofile
+    " Maximum number of changes that can be undone
+    set undolevels=1000
+    " Maximum number lines to save for undo on a buffer reload
+    set undoreload=10000
+endif
+if isdirectory(expand("~/.vim/bundle/undotree/"))
+    nnoremap <Leader>u :UndotreeToggle<CR>
+    " If undotree is opened, it is likely one wants to interact with it.
+    let g:undotree_SetFocusWhenToggle=1
+endif
+
+" Tabularize {
+if isdirectory(expand("~/.vim/bundle/tabular"))
+    nmap <Leader>a& :Tabularize /&<CR>
+    vmap <Leader>a& :Tabularize /&<CR>
+    nmap <Leader>a= :Tabularize /=<CR>
+    vmap <Leader>a= :Tabularize /=<CR>
+    nmap <Leader>a=> :Tabularize /=><CR>
+    vmap <Leader>a=> :Tabularize /=><CR>
+    nmap <Leader>a: :Tabularize /:<CR>
+    vmap <Leader>a: :Tabularize /:<CR>
+    nmap <Leader>a:: :Tabularize /:\zs<CR>
+    vmap <Leader>a:: :Tabularize /:\zs<CR>
+    nmap <Leader>a, :Tabularize /,<CR>
+    vmap <Leader>a, :Tabularize /,<CR>
+    nmap <Leader>a,, :Tabularize /,\zs<CR>
+    vmap <Leader>a,, :Tabularize /,\zs<CR>
+    nmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+    vmap <Leader>a<Bar> :Tabularize /<Bar><CR>
+endif
+
+" ctrlp
+    if isdirectory(expand("~/.vim/bundle/ctrlp.vim/"))
+        let g:ctrlp_working_path_mode = 'ra'
+        nnoremap <silent> <D-t> :CtrlP<CR>
+        nnoremap <silent> <D-r> :CtrlPMRU<CR>
+        let g:ctrlp_custom_ignore = {
+            \ 'dir':  '\.git$\|\.hg$\|\.svn$',
+            \ 'file': '\.exe$\|\.so$\|\.dll$\|\.pyc$' }
+
+        " On Windows use "dir" as fallback command.
+        if WINDOWS()
+            let s:ctrlp_fallback = 'dir %s /-n /b /s /a-d'
+        elseif executable('ag')
+            let s:ctrlp_fallback = 'ag %s --nocolor -l -g ""'
+        elseif executable('ack-grep')
+            let s:ctrlp_fallback = 'ack-grep %s --nocolor -f'
+        elseif executable('ack')
+            let s:ctrlp_fallback = 'ack %s --nocolor -f'
+        else
+            let s:ctrlp_fallback = 'find %s -type f'
+        endif
+        let g:ctrlp_user_command = {
+            \ 'types': {
+                \ 1: ['.git', 'cd %s && git ls-files . --cached --exclude-standard --others'],
+                \ 2: ['.hg', 'hg --cwd %s locate -I .'],
+            \ },
+            \ 'fallback': s:ctrlp_fallback
+        \ }
+    endif
+
+" jedi-vim
+" do not popup the docstring window during completion
+autocmd FileType python setlocal completeopt-=preview
+let g:jedi#goto_assignments_command = "<leader>g"
+let g:jedi#goto_definitions_command = "<leader>d"
+let g:jedi#documentation_command = "K"
+let g:jedi#usages_command = "<leader>n"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>r"
+
+" Wildfire
+let g:wildfire_objects = {
+            \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],
+            \ "html,xml" : ["at"],
+            \ }
+nmap <leader>s <Plug>(wildfire-quick-select)
+
+" vim-indent-guides
+if isdirectory(expand("~/.vim/bundle/vim-indent-guides/"))
+    let g:indent_guides_start_level = 2
+    let g:indent_guides_guide_size = 1
+    let g:indent_guides_enable_on_vim_startup = 1
+endif
+
+" fencview.vim
+" let g:fencview_autodetect = 1
