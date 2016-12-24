@@ -49,6 +49,9 @@ Plug 'vim-scripts/matchit.zip'
 " Sublime alike multiple cursors supoort
 Plug 'terryma/vim-multiple-cursors'
 
+" Indent Guides is a plugin for visually displaying indent levels in Vim
+Plug 'nathanaelkane/vim-indent-guides'
+
 " Python support
 Plug 'davidhalter/jedi-vim'
 "Plug 'jmcantrell/vim-virtualenv'

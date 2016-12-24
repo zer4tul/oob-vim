@@ -183,7 +183,7 @@ set wrap                        " wrap long lines
 set autoindent                  " Indent at the same level of the previous line
 set shiftwidth=4                " Use indents of 4 spaces
 set expandtab                   " Tabs are spaces, not tabs
-set tabstop=8                   " actual tabs occupy 8 characters ( VIM's default is 8 )
+set tabstop=4                   " actual tabs occupy 8 characters ( VIM's default is 8 )
 set softtabstop=4               " Let backspace delete indent
 set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
 set splitright                  " Puts new vsplit windows to the right of the current
