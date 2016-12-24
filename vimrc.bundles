@@ -25,6 +25,7 @@ Plug 'nono/vim-handlebars'
 Plug 'pangloss/vim-javascript'
 Plug 'wookiehangover/jshint.vim'
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdcommenter'
 Plug 'scrooloose/syntastic'
 Plug 'slim-template/vim-slim'
 Plug 'tpope/vim-bundler'

@@ -203,7 +203,8 @@ noremap <C-l> <C-w>l
 " Exit insert mode without ESC. uncomment if you need it.
 "inoremap jk <Esc>
 
-noremap <leader>l :Align
+nmap <leader>xa <Plug>(EasyAlign)
+xmap <leader>xa <Plug>(EasyAlign)
 nnoremap <leader>/ :Ack!<space>
 nnoremap <leader>b :CtrlPBuffer<CR>
 nnoremap <leader>d :NERDTreeToggle<CR>
@@ -213,7 +214,8 @@ nnoremap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
 nnoremap <leader>] :TagbarToggle<CR>
 nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
 nnoremap <leader>g :GitGutterToggle<CR>
-nnoremap <leader>c <Plug>Kwbd
+
+" reload vimrc
 noremap <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
 
 " in case you forgot to sudo
