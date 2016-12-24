@@ -64,8 +64,11 @@ Plug 'davidhalter/jedi-vim'
 Plug 'groenewege/vim-less'
 Plug 'cakebaker/scss-syntax.vim'
 Plug 'gcmt/wildfire.vim'
+
+" Color schemes
 Plug 'chriskempson/base16-vim'
 Plug 'flazz/vim-colorschemes'
+Plug 'morhetz/gruvbox'
 
 " Dash.app ( OS X only )
 Plug 'rizzatti/dash.vim'
