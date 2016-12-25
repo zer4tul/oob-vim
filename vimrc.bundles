@@ -1,100 +1,778 @@
-" Bundles here are part of the core Maximum Awesome setup
-" Do NOT add bundles to this list, as they might get removed when you upgrade
-" Maximum Awesome.
-" Please create ~/.vimrc.bundles.local and add any extra bundles you want there
-Plug 'bling/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
-Plug 'airblade/vim-gitgutter'
-Plug 'austintaylor/vim-indentobject'
-Plug 'christoomey/vim-tmux-navigator'
-Plug 'gmarik/vundle'
-Plug 'juvenn/mustache.vim'
-Plug 'kchmck/vim-coffee-script'
-Plug 'ctrlpvim/ctrlp.vim'
-Plug 'leafgarland/typescript-vim'
-if executable('ack') || executable('ag')
-    Plug 'mileszs/ack.vim'
+" #################################
+" Dependence
+" #################################
+" package dependence:  ctags, ag(he_silver_searcher)
+" python dependence:   pep8, pyflake" Bundles here are part of the core Maximum Awesome setup
+
+
+" #################################
+" Plugin Management
+" #################################
+" inspired by spf13, 自定义需要的插件集合
+" available list
+" python
+" javascript
+" markdown
+" html
+" css
+" less
+" scss
+" tmux
+" common lisp
+" php
+if !exists('g:bundle_groups')
+    let g:bundle_groups=['python', 'json', 'markdown', 'html', 'css', 'tmux']
 endif
-if executable('ctags')
-    Plug 'majutsushi/tagbar'
-endif
-Plug 'rking/ag.vim'
-"Plug 'msanders/snipmate.vim'
-Plug 'nathanaelkane/vim-indent-guides'
-Plug 'nono/vim-handlebars'
-Plug 'pangloss/vim-javascript'
-Plug 'wookiehangover/jshint.vim'
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'scrooloose/nerdcommenter'
+
+"""""""""""""""""""""""""""""""
+" Generial {{{1
+"""""""""""""""""""""""""""""""
+
+"""""""""""""""""""""""""""""""
+" syntastic {{{2
+"""""""""""""""""""""""""""""""
 Plug 'scrooloose/syntastic'
-Plug 'slim-template/vim-slim'
-Plug 'tpope/vim-bundler'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-cucumber'
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-fugitive'
-Plug 'tpope/vim-pastie'
-Plug 'tpope/vim-ragtag'
-Plug 'tpope/vim-rails'
-Plug 'tpope/vim-repeat'
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
-Plug 'tpope/vim-vividchalk'
-Plug 'eventualbuddha/vim-protobuf'
-Plug 'vim-ruby/vim-ruby'
-"Plug 'vim-scripts/Align'
+
+
+" Group dependencies, vim-snippets depends on ultisnips
+" Snippets are separated from the engine.
+Plug 'SirVer/ultisnips' | Plug 'honza/vim-snippets'
+"}}}
+
+"""""""""""""""""""""""""""""""
+" auto complete {{{2
+"""""""""""""""""""""""""""""""
+"Plug 'Valloric/YouCompleteMe'
+"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' , 'for': ['python', 'c', 'cpp'] }
+Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
+
+" 自动补全单引号，双引号等
+Plug 'Raimondi/delimitMate'
+" 自动补全html/xml标签
+Plug 'docunext/closetag.vim'
+
+"Plug 'Shougo/neocomplete.vim'
+"Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+"Plug 'Shougo/neosnippet'
+"Plug 'Shougo/neosnippet-snippets'
+"}}}
+
+"""""""""""""""""""""""""""""""
+" quick editing {{{2
+"""""""""""""""""""""""""""""""
+" comment
+Plug 'scrooloose/nerdcommenter'
+" align
 Plug 'junegunn/vim-easy-align'
-Plug 'vim-scripts/greplace.vim'
 Plug 'vim-scripts/matchit.zip'
 
 " Sublime alike multiple cursors supoort
 Plug 'terryma/vim-multiple-cursors'
 
-" Indent Guides is a plugin for visually displaying indent levels in Vim
-Plug 'nathanaelkane/vim-indent-guides'
+" file location
+Plug 'ctrlpvim/ctrlp.vim' | Plug 'tacahiroy/ctrlp-funky'
 
-" Python support
-Plug 'davidhalter/jedi-vim'
-"Plug 'jmcantrell/vim-virtualenv'
-"Plug 'klen/python-mode'
-"Plug 'yssource/python.vim'
-"Plug 'python_match.vim'
-"Plug 'pythoncomplete'
+" gundo: visualize your Vim undo tree
+Plug 'sjl/gundo.vim'
 
-" LESS & SCSS support
-Plug 'groenewege/vim-less'
-Plug 'cakebaker/scss-syntax.vim'
+" endwise
+Plug 'tpope/vim-endwise'
+Plug 'tpope/vim-repeat' | Plug 'tpope/vim-surround'
+Plug 'tpope/vim-unimpaired'
+
+" smart selection of the closest text object
 Plug 'gcmt/wildfire.vim'
+
+" quick comment
+Plug 'scrooloose/nerdcommenter'
+
+" ack/ag
+if executable('ack') || executable('ag')
+    Plug 'mileszs/ack.vim'
+endif
+
+" unicode
+Plug 'chrisbra/unicode.vim', { 'do': 'DownloadUnicode'}
+"}}}
+
+"""""""""""""""""""""""""""""""
+" git {{{2
+"""""""""""""""""""""""""""""""
+Plug 'tpope/vim-fugitive'
+Plug 'airblade/vim-gitgutter'
+"}}}
+
+"""""""""""""""""""""""""""""""
+" NAV {{{2
+"""""""""""""""""""""""""""""""
+" tagbar
+if executable('ctags')
+    Plug 'majutsushi/tagbar'
+endif
+
+" NERDTree
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+
+" ctrlspace
+Plug 'vim-ctrlspace/vim-ctrlspace'
+"}}}
+
+"""""""""""""""""""""""""""""""
+" UI/UX {{{2
+"""""""""""""""""""""""""""""""
+" rainbow parentheses
+Plug 'luochen1990/rainbow'
+"Plug 'junegunn/rainbow_parentheses'
+
+" Airline
+Plug 'bling/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 
 " Color schemes
 Plug 'chriskempson/base16-vim'
 Plug 'flazz/vim-colorschemes'
 Plug 'morhetz/gruvbox'
 
-" Dash.app ( OS X only )
-Plug 'rizzatti/dash.vim'
+" hilight indents
+Plug 'nathanaelkane/vim-indent-guides'
 
-" Golang support
-Plug 'fatih/vim-go'
+" Object
+Plug 'michaeljsmith/vim-indent-object'
+" }}}
+" }}}
 
-" Auto-completion & snippet
-Plug 'Shougo/neocomplete.vim'
-Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-Plug 'Shougo/neosnippet'
-Plug 'Shougo/neosnippet-snippets'
-"Plug 'Valloric/YouCompleteMe'
+" #################################
+" Bundle Groups {{{1
+" #################################
+"""""""""""""""""""""""""""""""
+" tmux {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'tmux')
+    " tmux
+    " For tmux navigator Ctrl-hjkl
+    Plug 'christoomey/vim-tmux-navigator'
+endif
+"}}}
 
-Plug 'mbbill/undotree'
-Plug 'mbbill/fencview'
-Plug 'greyblake/vim-preview'
-Plug 'honza/vim-snippets'
+"""""""""""""""""""""""""""""""
+" markdown {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'markdown')
+    Plug 'plasticboy/vim-markdown', {'for': 'md'}
+    " https://github.com/suan/vim-instant-markdown
+    " npm -g install instant-markdown-d
+    " Plug 'suan/vim-instant-markdown'
+    " let g:instant_markdown_slow = 1
+    " let g:instant_markdown_autostart = 0
+    " map <F12> :InstantMarkdownPreview<CR>
+    " previews
+    " markdown preview
+    Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
 
-" previews
-" markdown preview
-Plug 'JamshedVesuna/vim-markdown-preview'
-Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" golang {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'golang')
+    " 1. vim a.go
+    " 2. :GoInstallBinaries
+    " vim-go
+    Plug 'fatih/vim-go', {'do': ':GoInstallBinaries' , 'for': 'go'}
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" python {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'python')
+    " for python.vim syntax highlight
+    " pythonsyntax
+    Plug 'hdima/python-syntax'
+    Plug 'hynek/vim-python-pep8-indent'
+    Plug 'Glench/Vim-Jinja2-Syntax'
+    "Plug 'jmcantrell/vim-virtualenv'
+    "Plug 'davidhalter/jedi-vim'
+    "Plug 'klen/python-mode'
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" php {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'php')
+    Plug 'spf13/PIV'
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" ruby {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'ruby')
+    Plug 'vim-ruby/vim-ruby'
+    Plug 'tpope/vim-rails'
+    " dir / dar
+    Plug 'nelstrom/vim-textobj-rubyblock'
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" common lisp {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'common listp')
+    Plug 'kovisoft/slimv'
+endif
+" }}}
+"""""""""""""""""""""""""""""""
+" json {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'json')
+    " json
+    Plug 'elzr/vim-json', {'for': 'json'}
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" html {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'html')
+    " ###### emmet HTML complete #########
+    " Plug "mattn/emmet-vim"
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" coffeescript {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'coffeescript')
+    Plug 'kchmck/vim-coffee-script'
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" css {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'css')
+    " not work in iterm2 which termianl selection is not xterm-256, and it slow
+    Plug 'ap/vim-css-color'
+    Plug 'hail2u/vim-css3-syntax'
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" less {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'less')
+    Plug 'groenewege/vim-less'
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" scss {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'scss')
+    Plug 'cakebaker/scss-syntax.vim'
+endif
+"}}}
+
+"""""""""""""""""""""""""""""""
+" macos {{{2
+"""""""""""""""""""""""""""""""
+if count(g:bundle_groups, 'macos')
+    " Dash.app ( OS X only )
+    Plug 'rizzatti/dash.vim'
+endif
+"}}}
+"}}}
+
+" #################################
+" Plugin Settings {{{1
+" #################################
+
+" syntastic {{{2
+    " dependence
+    " 1. shellcheck `brew install shellcheck` https://github.com/koalaman/shellcheck
+
+    let g:syntastic_error_symbol='>>'
+    let g:syntastic_warning_symbol='>'
+    let g:syntastic_check_on_open=1
+    let g:syntastic_check_on_wq=0
+    let g:syntastic_enable_highlighting=1
+
+    " checkers
+    " 最轻量
+    " let g:syntastic_python_checkers=['pyflakes'] " 使用pyflakes
+    " 中等
+    " error code: http://pep8.readthedocs.org/en/latest/intro.html#error-codes
+    let g:syntastic_python_checkers=['pyflakes', 'pep8'] " 使用pyflakes,速度比pylint快
+    let g:syntastic_python_pep8_args='--ignore=E501,E225,E124,E712'
+    " 重量级, 但是足够强大, 定制完成后相当个性化
+    " pylint codes: http://pylint-messages.wikidot.com/all-codes
+    " let g:syntastic_python_checkers=['pyflakes', 'pylint'] " 使用pyflakes,速度比pylint快
+    " let g:syntastic_python_checkers=['pylint'] " 使用pyflakes,速度比pylint快
+    " let g:syntastic_python_pylint_args='--disable=C0111,R0903,C0301'
+
+    " if js
+    " let g:syntastic_javascript_checkers = ['jsl', 'jshint']
+    " let g:syntastic_html_checkers=['tidy', 'jshint']
+
+    " to see error location list
+    let g:syntastic_always_populate_loc_list = 1
+    let g:syntastic_enable_signs = 1
+    let g:syntastic_auto_loc_list = 0
+    let g:syntastic_auto_jump = 0
+    let g:syntastic_loc_list_height = 5
+
+    function! ToggleErrors()
+        let old_last_winnr = winnr('$')
+        lclose
+        if old_last_winnr == winnr('$')
+            " Nothing was closed, open syntastic_error location panel
+            Errors
+        endif
+    endfunction
+    nnoremap <Leader>s :call ToggleErrors()<cr>
+
+    " ,en ,ep to jump between errors
+    function! <SID>LocationPrevious()
+    try
+        lprev
+    catch /^Vim\%((\a\+)\)\=:E553/
+        llast
+    endtry
+    endfunction
+
+    function! <SID>LocationNext()
+    try
+        lnext
+    catch /^Vim\%((\a\+)\)\=:E553/
+        lfirst
+    endtry
+    endfunction
+
+    nnoremap <silent> <Plug>LocationPrevious    :<C-u>exe 'call <SID>LocationPrevious()'<CR>
+    nnoremap <silent> <Plug>LocationNext        :<C-u>exe 'call <SID>LocationNext()'<CR>
+    nmap <silent> <Leader>ep    <Plug>LocationPrevious
+    nmap <silent> <Leader>en    <Plug>LocationNext
+
+    " 修改高亮的背景色, 适应主题
+    highlight SyntasticErrorSign guifg=white guibg=black
+
+    " 禁止插件检查java
+    " thanks to @marsqing, see https://github.com/wklken/k-vim/issues/164
+    let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
+" }}}
+
+" YouCompleteMe {{{2
+    "youcompleteme  默认tab  s-tab 和自动补全冲突
+    "let g:ycm_key_list_select_completion=['<c-n>']
+    let g:ycm_key_list_select_completion = ['<Down>']
+    "let g:ycm_key_list_previous_completion=['<c-p>']
+    let g:ycm_key_list_previous_completion = ['<Up>']
+    let g:ycm_complete_in_comments = 1  "在注释输入中也能补全
+    let g:ycm_complete_in_strings = 1   "在字符串输入中也能补全
+    let g:ycm_use_ultisnips_completer = 1 "提示UltiSnips
+    let g:ycm_collect_identifiers_from_comments_and_strings = 1   "注释和字符串中的文字也会被收入补全
+    let g:ycm_collect_identifiers_from_tags_files = 1
+    " 开启语法关键字补全
+    let g:ycm_seed_identifiers_with_syntax=1
+
+    " 跳转到定义处, 分屏打开
+    let g:ycm_goto_buffer_command = 'horizontal-split'
+    " nnoremap <leader>jd :YcmCompleter GoToDefinition<CR>
+    nnoremap <leader>jd :YcmCompleter GoToDefinitionElseDeclaration<CR>
+    nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+
+    " 引入，可以补全系统，以及python的第三方包 针对新老版本YCM做了兼容
+    " old version
+    if !empty(glob("~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"))
+        let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py"
+    endif
+    " new version
+    if !empty(glob("~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"))
+        let g:ycm_global_ycm_extra_conf = "~/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py"
+    endif
+
+    " 直接触发自动补全 insert模式下
+    " let g:ycm_key_invoke_completion = '<C-Space>'
+    " 黑名单,不启用
+    let g:ycm_filetype_blacklist = {
+        \ 'tagbar' : 1,
+        \ 'gitcommit' : 1,
+        \}
+" }}}
+
+
+" ultisnips {{{2
+    let g:UltiSnipsExpandTrigger       = "<tab>"
+    let g:UltiSnipsJumpForwardTrigger  = "<tab>"
+    let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+    let g:UltiSnipsSnippetDirectories  = ['UltiSnips']
+    let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
+    " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
+    " 进入对应filetype的snippets进行编辑
+    map <leader>us :UltiSnipsEdit<CR>
+" }}}
+
+
+" delimitMate {{{2
+    " for python docstring ",优化输入
+    au FileType python let b:delimitMate_nesting_quotes = ['"']
+    au FileType php let delimitMate_matchpairs = "(:),[:],{:}"
+    " 关闭某些类型文件的自动补全
+    "au FileType mail let b:delimitMate_autoclose = 0
+" }}}
+
+
+" closetag {{{2
+    let g:closetag_html_style=1
+" }}}
+
+" ################### 快速编码 ###################
+
+" nerdcommenter {{{2
+    let g:NERDSpaceDelims=1
+    let g:NERDAltDelims_python = 1
+" }}}
+
+" trailingwhitespace {{{2
+    map <leader><space> :FixWhitespace<cr>
+" }}}
+
+" easyalign {{{2
+    vmap <Leader>a <Plug>(EasyAlign)
+    nmap <Leader>a <Plug>(EasyAlign)
+    if !exists('g:easy_align_delimiters')
+    let g:easy_align_delimiters = {}
+    endif
+    let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
+" }}}
+
+" ################### 快速移动 ###################
+
+" easymotion {{{2
+    let g:EasyMotion_smartcase = 1
+    "let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
+    map <Leader><leader>h <Plug>(easymotion-linebackward)
+    map <Leader><Leader>j <Plug>(easymotion-j)
+    map <Leader><Leader>k <Plug>(easymotion-k)
+    map <Leader><leader>l <Plug>(easymotion-lineforward)
+    " 重复上一次操作, 类似repeat插件, 很强大
+    map <Leader><leader>. <Plug>(easymotion-repeat)
+" }}}
+
+
+" quickscope {{{2
+    let g:qs_highlight_on_keys = ['f', 'F', 't', 'T']
+    " macvim/gvim会有问题, 暂时注解
+    " let g:qs_first_occurrence_highlight_color = '#afff5f' " gui vim
+    " let g:qs_first_occurrence_highlight_color = 155       " terminal vim
+    " let g:qs_second_occurrence_highlight_color = '#5fffff'  " gui vim
+    " let g:qs_second_occurrence_highlight_color = 81         " terminal vim
+" }}}
+
+" ################### 快速选中 ###################
+
+" multiplecursors {{{2
+    let g:multi_cursor_use_default_mapping=0
+    " Default mapping
+    let g:multi_cursor_next_key='<C-m>'
+    let g:multi_cursor_prev_key='<C-p>'
+    let g:multi_cursor_skip_key='<C-x>'
+    let g:multi_cursor_quit_key='<Esc>'
+" }}}
+
+" ################### 功能相关 ###################
+
+" ctrlp ctrlpfunky{{{2
+    let g:ctrlp_map = '<leader>p'
+    let g:ctrlp_cmd = 'CtrlP'
+    map <leader>f :CtrlPMRU<CR>
+    let g:ctrlp_custom_ignore = {
+        \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
+        \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
+        \ }
+    let g:ctrlp_working_path_mode=0
+    let g:ctrlp_match_window = 'order:ttb,max:20'
+    let g:ctrlp_max_height=15
+    let g:ctrlp_mruf_max=500
+    let g:ctrlp_follow_symlinks=1
+
+    " Use ag in CtrlP for listing files. Lightning fast and respects .gitignore
+    if executable('ag')
+        let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    endif
+
+    " ctrlpfunky
+    " ctrlp插件1 - 不用ctag进行函数快速跳转
+    nnoremap <Leader>fu :CtrlPFunky<Cr>
+    " narrow the list down with a word under cursor
+    nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+    let g:ctrlp_funky_syntax_highlight = 1
+
+    let g:ctrlp_extensions = ['funky']
+" }}}
+
+
+" ctrlsf {{{2
+    nmap \ <Plug>CtrlSFCwordPath<CR>
+    " let g:ctrlsf_position = 'below'
+    " let g:ctrlsf_winsize = '30%'
+    let g:ctrlsf_auto_close = 0
+    let g:ctrlsf_confirm_save = 0
+    " Note: cannot use <CR> or <C-m> for open
+    " Use : <sapce> or <tab>
+    let g:ctrlsf_mapping = {
+        \ "open"  : "<Space>",
+        \ "openb" : "O",
+        \ "tab"   : "t",
+        \ "tabb"  : "T",
+        \ "prevw" : "p",
+        \ "quit"  : "q",
+        \ "next"  : "<C-J>",
+        \ "prev"  : "<C-K>",
+        \ "pquit" : "q",
+        \ }
+" }}}
+
+" git.  git操作还是习惯命令行,vim里面处理简单diff编辑操作
+
+" fugitive {{{2
+    " :Gdiff  :Gstatus :Gvsplit
+    nnoremap <leader>ge :Gdiff<CR>
+    " not ready to open
+    " <leader>gb maps to :Gblame<CR>
+    " <leader>gs maps to :Gstatus<CR>
+    " <leader>gd maps to :Gdiff<CR>  和现有冲突
+    " <leader>gl maps to :Glog<CR>
+    " <leader>gc maps to :Gcommit<CR>
+    " <leader>gp maps to :Git push<CR>
+" }}}
+
+" gitgutter {{{2
+    " 同git diff,实时展示文件中修改的行
+    " 只是不喜欢除了行号多一列, 默认关闭,gs时打开
+    let g:gitgutter_map_keys = 0
+    let g:gitgutter_enabled = 0
+    let g:gitgutter_highlight_lines = 1
+    nnoremap <leader>gs :GitGutterToggle<CR>
+" }}}
+
+" gundo {{{2
+    noremap <leader>h :GundoToggle<CR>
+" }}}
+
+" ack ( default use ag if exists ) {{{2
+if executable('ag')
+  let g:ackprg = 'ag --vimgrep'
+endif
+" }}}
+
+" ################### 显示增强 ###################
+
+" airline {{{2
+    if !exists('g:airline_symbols')
+        let g:airline_symbols = {}
+    endif
+    let g:airline_left_sep = '❯'
+    let g:airline_left_alt_sep = '〉'
+    let g:airline_right_sep = '❮'
+    let g:airline_right_alt_sep = '〈'
+    let g:airline_symbols.linenr = '¶'
+    let g:airline_symbols.branch = '⎇'
+    " 是否打开tabline
+    " let g:airline#extensions#tabline#enabled = 1
+" }}}
+
+
+
+" rainbow_parentheses {{{2
+    " 不加入这行, 防止黑色括号出现, 很难识别
+    " \ ['black',       'SeaGreen3'],
+    let g:rainbow_active = 1
+    let g:rainbow_conf = {
+                \   'guifgs': ['RoyalBlue3', 'SeaGreen3', 'DarkOrchid3'],
+                \   'ctermfgs': ['lightblue', 'lightyellow', 'lightcyan', 'lightmagenta'],
+                \   'operators': '_,_',
+                \   'parentheses': ['start=/(/ end=/)/ fold', 'start=/\[/ end=/\]/ fold', 'start=/{/ end=/}/ fold'],
+                \   'separately': {
+                \       '*': {},
+                \       'tex': {
+                \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/'],
+                \       },
+                \       'lisp': {
+                \           'guifgs': ['royalblue3', 'darkorange3', 'seagreen3', 'firebrick', 'darkorchid3'],
+                \       },
+                \       'vim': {
+                \           'parentheses': ['start=/(/ end=/)/', 'start=/\[/ end=/\]/', 'start=/{/ end=/}/ fold', 'start=/(/ end=/)/ containedin=vimFuncBody', 'start=/\[/ end=/\]/ containedin=vimFuncBody', 'start=/{/ end=/}/ fold containedin=vimFuncBody'],
+                \       },
+                \       'html': {
+                \           'parentheses': ['start=/\v\<((area|base|br|col|embed|hr|img|input|keygen|link|menuitem|meta|param|source|track|wbr)[ >])@!\z([-_:a-zA-Z0-9]+)(\s+[-_:a-zA-Z0-9]+(\=("[^"]*"|'."'".'[^'."'".']*'."'".'|[^ '."'".'"><=`]*))?)*\>/ end=#</\z1># fold'],
+                \       },
+                \       'css': 0,
+                \   }
+                \}
+
+    " }}}
+
+
+    " ################### 显示增强-主题 ###################"
+
+    " solarized {{{2
+    let g:solarized_termtrans=1
+    let g:solarized_contrast="normal"
+    let g:solarized_visibility="normal"
+    " let g:solarized_termcolors=256
+    " }}}
+
+    " molokai {{{2
+    " monokai原始背景色
+    let g:molokai_original = 1
+    let g:rehash256 = 1
+    " }}}
+
+    " ################### 快速导航 ###################
+
+    " nerdtree nerdtreetabs {{{2
+    map <leader>n :NERDTreeToggle<CR>
+    let NERDTreeHighlightCursorline=1
+    let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+    "close vim if the only window left open is a NERDTree
+    autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
+    " s/v 分屏打开文件
+    let g:NERDTreeMapOpenSplit = 's'
+    let g:NERDTreeMapOpenVSplit = 'v'
+
+
+    " 关闭同步
+    let g:nerdtree_tabs_synchronize_view=0
+    let g:nerdtree_tabs_synchronize_focus=0
+    " 是否自动开启nerdtree
+    " thank to @ListenerRi, see https://github.com/wklken/k-vim/issues/165
+    let g:nerdtree_tabs_open_on_console_startup=0
+    let g:nerdtree_tabs_open_on_gui_startup=0
+    " }}}
+
+
+    " Vim Workspace Controller
+    " ctrlspace {{{2
+    let g:airline_exclude_preview = 1
+    hi CtrlSpaceSelected guifg=#586e75 guibg=#eee8d5 guisp=#839496 gui=reverse,bold ctermfg=10 ctermbg=7 cterm=reverse,bold
+    hi CtrlSpaceNormal   guifg=#839496 guibg=#021B25 guisp=#839496 gui=NONE ctermfg=12 ctermbg=0 cterm=NONE
+    hi CtrlSpaceSearch   guifg=#cb4b16 guibg=NONE gui=bold ctermfg=9 ctermbg=NONE term=bold cterm=bold
+    hi CtrlSpaceStatus   guifg=#839496 guibg=#002b36 gui=reverse term=reverse cterm=reverse ctermfg=12 ctermbg=8
+    " }}}
+
+
+    " 标签导航
+    " tagbar {{{2
+    nmap <F9> :TagbarToggle<CR>
+    let g:tagbar_autofocus = 1
+    " let g:tagbar_autoshowtag = 1
+    " let g:tagbar_show_visibility = 1
+    " for ruby
+    let g:tagbar_type_ruby = {
+                \ 'kinds' : [
+                \ 'm:modules',
+                \ 'c:classes',
+                \ 'd:describes',
+                \ 'C:contexts',
+                \ 'f:methods',
+                \ 'F:singleton methods'
+                \ ]
+                \ }
+
+    " go语言的tagbar配置
+    " 1. install gotags 'go get -u github.com/jstemmer/gotags'
+    " 2. make sure `gotags` in you shell PATH, you can call check it with `which gotags`
+    " for gotags. work with tagbar
+    let g:tagbar_type_go = {
+                \ 'ctagstype' : 'go',
+                \ 'kinds'     : [
+                \ 'p:package',
+                \ 'i:imports:1',
+                \ 'c:constants',
+                \ 'v:variables',
+                \ 't:types',
+                \ 'n:interfaces',
+                \ 'w:fields',
+                \ 'e:embedded',
+                \ 'm:methods',
+                \ 'r:constructor',
+                \ 'f:functions'
+                \ ],
+                \ 'sro' : '.',
+                \ 'kind2scope' : {
+                \ 't' : 'ctype',
+                \ 'n' : 'ntype'
+                \ },
+                \ 'scope2kind' : {
+                \ 'ctype' : 't',
+                \ 'ntype' : 'n'
+                \ },
+                \ 'ctagsbin'  : 'gotags',
+                \ 'ctagsargs' : '-sort -silent'
+                \ }
+    " }}}
+
+
+    " ################### 语言相关 ###################
+
+    " quickrun {{{2
+    let g:quickrun_config = {
+                \   "_" : {
+                \       "outputter" : "message",
+                \   },
+                \}
+
+    let g:quickrun_no_default_key_mappings = 1
+    nmap <Leader>r <Plug>(quickrun)
+    map <F10> :QuickRun<CR>
+    " }}}
+
+
+    " pythonsyntax {{{2
+    let python_highlight_all = 1
+    " }}}
+
+
+    " vim-go {{{2
+    let g:go_highlight_functions = 1
+    let g:go_highlight_methods = 1
+    let g:go_highlight_structs = 1
+    let g:go_highlight_operators = 1
+    let g:go_highlight_build_constraints = 1
+
+    let g:go_fmt_fail_silently = 1
+    " let g:go_fmt_command = "goimports"
+    " let g:syntastic_go_checkers = ['golint', 'govet', 'errcheck']
+    " }}}
+
+    " markdown {{{2
+    let g:vim_markdown_folding_disabled=1
+    " }}}
+
+
+    " javascript {{{2
+    " pangloss/vim-javascript
+    let g:html_indent_inctags = "html,body,head,tbody"
+    let g:html_indent_script1 = "inc"
+    let g:html_indent_style1 = "inc"
+    " }}}
+
+    " json {{{2
+    let g:vim_json_syntax_conceal = 0
+    " }}}
+
+    " css {{{2
+    " }}}
+
+"}}}
 
 " Use local settings if available
 if filereadable(expand("~/.vimrc.bundles.local"))
     source ~/.vimrc.bundles.local
 endif
+
+" vim: ft=vim:fdm=marker:et:sw=4:

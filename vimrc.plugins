@@ -1,4 +1,6 @@
+""""""""""""""""""""""""""""""""""""
 " vim-airline
+""""""""""""""""""""""""""""""""""""
 if isdirectory(expand("~/.vim/plugged/vim-airline/"))
     if !exists('g:airline_powerline_fonts')
         " Do not use powerline fonts
@@ -30,23 +32,34 @@ endif
 "    \ 'z': 45,
 "    \ }
 
-" Align
-" Disambiguate ,a & ,t from the Align plugin, making them fast again.
-"
-" This section is here to prevent AlignMaps from adding a bunch of mappings
-" that interfere with the very-common ,a and ,t mappings. This will get run
-" at every startup to remove the AlignMaps for the *next* vim startup.
-"
-" If you do want the AlignMaps mappings, remove this section, remove
-" ~/.vim/plugged/Align, and re-run rake in maximum-awesome.
-function! s:RemoveConflictingAlignMaps()
-    if exists("g:loaded_AlignMapsPlugin")
-        AlignMapsClean
-    endif
-endfunction
-command! -nargs=0 RemoveConflictingAlignMaps call s:RemoveConflictingAlignMaps()
-silent! autocmd VimEnter * RemoveConflictingAlignMaps
+""""""""""""""""""""""""""""""""""""
+" YouCompleteMe & UltiSnips Settings
+""""""""""""""""""""""""""""""""""""
+"""" let g:ycm_confirm_extra_conf = 0
+"""" let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'
+"""" let g:ycm_seed_identifiers_with_syntax = 1
+"""" let g:ycm_autoclose_preview_window_after_insertion = 1
+"""" let g:ycm_autoclose_preview_window_after_completion = 1
+"""" let g:ycm_semantic_triggers = { 'haskell' : ['.'], 'rust' : ['::', '.'] }
+"""" let g:ycm_use_ultisnips_completer = 1 " Default 1, just ensure
+"""" if !exists('g:ycm_filetype_specific_completion_to_disable')
+""""     let g:ycm_filetype_specific_completion_to_disable = {}
+"""" endif
+"""" let g:ycm_filetype_specific_completion_to_disable.python = 1
+"""" nnoremap <leader>h :YcmCompleter GoToDeclaration<cr>
+"""" nnoremap <leader>? :YcmCompleter GoToDefinitionElseDeclaration<cr>
+"""" nnoremap <leader>d :YcmCompleter GoToDefinition<cr>
+"""" map <leader>g  :YcmCompleter GoToDefinitionElseDeclaration<CR>
+"""" 
+"""" " Trigger configuration. Do not use <tab> if you use https://github.com/Valloric/YouCompleteMe.
+"""" let g:UltiSnipsExpandTrigger="<c-k>"
+"""" let g:UltiSnipsJumpForwardTrigger="<c-b>"
+"""" let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
+
+"""""""""""""""""""""""""""""""""""""""""""""
+" Neocomplete/Deoplete & Neosnippet settings
+"""""""""""""""""""""""""""""""""""""""""""""
 " if it is neovim run deoplete
 if has("nvim")
     " deoplete.nvim recommend
@@ -168,7 +181,9 @@ else
                 \: "\<TAB>"
 endif
 
+"""""""""""""""""""""""""""""""""""""""""""""
 " vim-go settings
+"""""""""""""""""""""""""""""""""""""""""""""
 "" Enable syntax-highlighting for Functions, Methods and Structs
 let g:go_highlight_functions = 1
 let g:go_highlight_methods = 1
@@ -185,7 +200,9 @@ au FileType go nmap <Leader>b <Plug>(go-build)
 au FileType go nmap <Leader>t <Plug>(go-test)
 au FileType go nmap gd <Plug>(go-def-tab)
 
+"""""""""""""""""""""""""""""""""""""""""""""
 " Tagbar settings
+"""""""""""""""""""""""""""""""""""""""""""""
 if isdirectory(expand("~/.vim/plugged/tagbar/"))
     let g:tagbar_type_go = {
           \ 'ctagstype' : 'go',
@@ -216,12 +233,16 @@ if isdirectory(expand("~/.vim/plugged/tagbar/"))
           \ }
 endif
 
+"""""""""""""""""""""""""""""""""""""""""""""
 " ack.vim ( default use ag if exists )
+"""""""""""""""""""""""""""""""""""""""""""""
 if executable('ag')
   let g:ackprg = 'ag --vimgrep'
 endif
 
+"""""""""""""""""""""""""""""""""""""""""""""
 " undotree
+"""""""""""""""""""""""""""""""""""""""""""""
 set backup
 if has('persistent_undo')
     set undofile
@@ -236,7 +257,9 @@ if isdirectory(expand("~/.vim/plugged/undotree/"))
     let g:undotree_SetFocusWhenToggle=1
 endif
 
+"""""""""""""""""""""""""""""""""""""""""""""
 " ctrlp
+"""""""""""""""""""""""""""""""""""""""""""""
     if isdirectory(expand("~/.vim/plugged/ctrlp.vim/"))
         let g:ctrlp_working_path_mode = 'ra'
         nnoremap <silent> <D-t> :CtrlP<CR>
@@ -268,7 +291,9 @@ endif
     " show hidden file
     let g:ctrlp_show_hidden = 1
 
+"""""""""""""""""""""""""""""""""""""""""""""
 " jedi-vim
+"""""""""""""""""""""""""""""""""""""""""""""
 " do not popup the docstring window during completion
 autocmd FileType python setlocal completeopt-=preview
 let g:jedi#goto_assignments_command = "<leader>g"
@@ -278,14 +303,18 @@ let g:jedi#usages_command = "<leader>n"
 let g:jedi#completions_command = "<C-Space>"
 let g:jedi#rename_command = "<leader>r"
 
+"""""""""""""""""""""""""""""""""""""""""""""
 " Wildfire
+"""""""""""""""""""""""""""""""""""""""""""""
 let g:wildfire_objects = {
             \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],
             \ "html,xml" : ["at"],
             \ }
 nmap <leader>s <Plug>(wildfire-quick-select)
 
+"""""""""""""""""""""""""""""""""""""""""""""
 " vim-indent-guides
+"""""""""""""""""""""""""""""""""""""""""""""
 if isdirectory(expand("~/.vim/plugged/vim-indent-guides/"))
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
