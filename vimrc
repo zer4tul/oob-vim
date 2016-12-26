@@ -1,9 +1,14 @@
+" this script has been writen in utf-8 encoding
+scriptencoding utf-8
+
 " don't bother with vi compatibility
 set nocompatible
 
-" Environment
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Initialization {{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-" Identify platform
+" Identify platform {{{2
 silent function! OSX()
 return has('macunix')
         endfunction
@@ -13,8 +18,9 @@ return has('macunix')
     silent function! WINDOWS()
     return  (has('win16') || has('win32') || has('win64'))
 endfunction
+"}}}
 
-" Windows Compatible
+" Windows Compatible {{{2
 " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
 " across (heterogeneous) systems easier.
 if WINDOWS()
@@ -24,11 +30,9 @@ endif
 if !WINDOWS()
     set shell=/bin/sh
 endif
+"}}}
 
-" enable syntax highlighting
-syntax enable
-
-" Initialize directories
+" Initialize directories {{{2
 function! InitializeDirectories()
     let parent = $HOME
     let prefix = 'vim'
@@ -69,66 +73,108 @@ function! InitializeDirectories()
     endfor
 endfunction
 call InitializeDirectories()
+"}}}
 
-" configure Vundle
-filetype on " without this vim emits a zero exit status, later, because of :ft off
-filetype off
-"set rtp+=~/.vim/bundle/vundle/
-"call vundle#rc()
-" Specify a directory for plugins (for Neovim: ~/.local/share/nvim/plugged by
-" default)
-call plug#begin('~/.vim/plugged')
-
-" install plugins
+" configure plugin manager & install plugins
 if filereadable(expand("~/.vimrc.bundles"))
     source ~/.vimrc.bundles
 endif
-"
-" Add plugins to &runtimepath
-call plug#end()
 
-" ensure ftdetect et al work by including this after the Vundle stuff
+"}}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" General settings {{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" ensure ftdetect et al work by including this after the plugin manager stuff
+" +-----------------------------+-----------+-----------+-----------+
+" | command                     | detection | plugin    | indent    |
+" +-----------------------------+-----------+-----------+-----------+
+" | :filetype on                | on        | unchanged | unchanged |
+" +-----------------------------+-----------+-----------+-----------+
+" | :filetype off               | off       | unchanged | unchanged |
+" +-----------------------------+-----------+-----------+-----------+
+" | :filetype plugin on         | on        | on        | unchanged |
+" +-----------------------------+-----------+-----------+-----------+
+" | :filetype plugin off        | unchanged | off       | unchanged |
+" +-----------------------------+-----------+-----------+-----------+
+" | :filetype indent on         | on        | unchanged | on        |
+" +-----------------------------+-----------+-----------+-----------+
+" | :filetype indent off        | unchanged | unchanged | off       |
+" +-----------------------------+-----------+-----------+-----------+
+" | :filetype plugin indent on  | on        | on        | on        |
+" +-----------------------------+-----------+-----------+-----------+
+" | :filetype plugin indent off | unchanged | off       | off       |
+" +-----------------------------+-----------+-----------+-----------+
 filetype plugin indent on
 
-scriptencoding utf-8
+" enable syntax highlighting
+syntax enable
 
 set autoread                                                 " reload files when changed on disk, i.e. via `git checkout`
 set backspace=2                                              " Fix broken backspace in some setups
-set backupcopy=yes                                           " see :help crontab
+set backupcopy=yes                                           " make a copy of the file and overwrite the original one.
 set directory-=.                                             " don't store swapfiles in the current directory
-set encoding=utf-8
 set ignorecase                                               " case-insensitive search
 set incsearch                                                " search as you type
-set laststatus=2                                             " always show statusline
-set list                                                     " show trailing whitespace
-set listchars=tab:▸\ ,trail:▫,extends:#,nbsp:.
-set number                                                   " show line numbers
-set ruler                                                    " show where you are
-set scrolloff=3                                              " show context above/below cursorline
-set showcmd                                                  " Show (partial) command in the last line of the screen
 set smartcase                                                " case-sensitive search if any caps
-set wildignore=log/**,node_modules/**,target/**,tmp/**,*.rbc
-set wildmenu                                                 " show a navigable menu for tab completion
+set wildignore=log/**,node_modules/**,target/**,tmp/**,*.rbc,*.swp,*.bak,*.pyc,*.class,.svn
 set wildmode=longest,list,full
 set viewoptions=folds,options,cursor,unix,slash              " Better Unix / Windows compatibility
 set history=1000                                             " Store a ton of history (default is 20)
 set virtualedit=onemore                                      " Allow for cursor beyond last character
+set viminfo^=%                                               " Remember info about open buffers on close
 set showmatch                                                " Show matching brackets/parenthesis
 set incsearch                                                " Find as you type search
 set hidden                                                   " When a buffer becomes hidden when it is abandoned
-"set hlsearch                                                 " Highlight search terms
+set magic                                                    " It is recommended to always keep the 'magic' option at the default
+                                                             " setting, which is 'magic'.  This avoids portability problems.
+"}}}
 
-" 代码折叠
-set foldenable
-" 折叠方法
-" manual    手工折叠
-" indent    使用缩进表示折叠
-" expr      使用表达式定义折叠
-" syntax    使用语法定义折叠
-" diff      对没有更改的文本进行折叠
-" marker    使用标记进行折叠, 默认标记是 {{{ 和 }}}
-set foldmethod=syntax
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" UI/UX {{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set showcmd                                                  " Show (partial) command in the last line of the screen
 
+set splitright                                               " Puts new vsplit windows to the right of the current
+set splitbelow                                               " Puts new split windows to the bottom of the current
+
+set number                                                   " show line numbers
+set laststatus=2                                             " always show statusline
+set title                                                    " change terminal title
+"set hlsearch                                                " Highlight search terms, maybe will conflict with some colorschemes
+set ruler                                                    " show where you are
+
+set completeopt=longest,menu                                 " http://vim.wikia.com/wiki/Improve_completion_popup_menu
+set wildmenu                                                 " show a navigable menu for tab completion
+
+" mouse settings
+if exists('$TMUX')  " Support resizing in tmux
+    set ttymouse=xterm2
+endif
+
+set mouse=a                                                  " Enable basic mouse behavior such as resizing buffers
+set mousehide                                                " Hide the mouse cursor while typing
+
+
+set foldenable                                               " enable folding
+set foldmethod=manual                                        " available fold methods:
+                                                             " manual(default), indent, expr, syntax, diff, marker
+
+
+set list                                                     " show trailing whitespace
+set listchars=tab:▸\ ,trail:▫,extends:#,nbsp:.
+
+set scrolloff=5                                              " show context above/below cursorline
+
+" automatically rebalance windows on vim resize
+autocmd VimResized * :wincmd =
+
+" these two options below will highlight the line/column where the cursor is. may slow down the terminal when
+" they turned on
+"set cursorline                                               " highlight current line
+"set cursorcolumn                                             " highlight current column
+
+" Fix background color render problems in tmux and GNU screen
 if &term =~ "256"                                            " if we should use 256 colors
     set t_Co=256
     " disable Background Color Erase (BCE) so that color schemes
@@ -137,6 +183,17 @@ if &term =~ "256"                                            " if we should use 
     set t_ut=
 endif
 
+" Fix Cursor in TMUX
+if exists('$TMUX')
+    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
+
+" colorscheme setting
 if (&t_Co == 256 || has('gui_running'))
     colorscheme gruvbox
 else
@@ -145,73 +202,10 @@ endif
 
 set background=dark                                          " use dark background
 
-if exists('$TMUX')  " Support resizing in tmux
-    set ttymouse=xterm2
-endif
-
-set mouse=a                                                  " Enable basic mouse behavior such as resizing buffers
-set mousehide                                                " Hide the mouse cursor while typing
 
 " Wrapped lines goes down/up to next row, rather than next line in file.
 noremap j gj
 noremap k gk
-
-" Multi-encoding Setting
-" Auto detect Asia language environment. your vim should be compiled with multi_byte option
-set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1
-"if has("multi_byte")
-"    "set bomb
-"    set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1
-"    " CJK environment detection and corresponding setting
-"    if v:lang =~ "^zh_CN"
-"        " Use cp936 to support GBK, euc-cn == gb2312
-"        set encoding=cp936
-"        set termencoding=cp936
-"        set fileencoding=cp936
-"    elseif v:lang =~ "^zh_TW"
-"        " cp950, big5 or euc-tw
-"        " Are they equal to each other?
-"        set encoding=big5
-"        set termencoding=big5
-"        set fileencoding=big5
-"    elseif v:lang =~ "^ko"
-"        " Copied from someone's dotfile, untested
-"        set encoding=euc-kr
-"        set termencoding=euc-kr
-"        set fileencoding=euc-kr
-"    elseif v:lang =~ "^ja_JP"
-"        " Copied from someone's dotfile, untested
-"        set encoding=euc-jp
-"        set termencoding=euc-jp
-"        set fileencoding=euc-jp
-"    endif
-"    " Detect UTF-8 locale, and replace CJK setting if needed
-"    if v:lang =~ "utf8$" || v:lang =~ "UTF-8$"
-"        set encoding=utf-8
-"        set termencoding=utf-8
-"        set fileencoding=utf-8
-"    endif
-"endif
-
-
-" Formatting
-set wrap                        " wrap long lines
-set autoindent                  " Indent at the same level of the previous line
-set shiftwidth=4                " Use indents of 4 spaces
-set expandtab                   " Tabs are spaces, not tabs
-set tabstop=4                   " actual tabs occupy 8 characters ( VIM's default is 8 )
-set softtabstop=4               " Let backspace delete indent
-set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
-set splitright                  " Puts new vsplit windows to the right of the current
-set splitbelow                  " Puts new split windows to the bottom of the current
-set colorcolumn=+1              " highlight column after 'textwidth'
-" Configure backspace so it acts as it should act
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
-
-" keyboard shortcuts
-"let mapleader = ','
-let mapleader = "\<Space>"
 
 " switch windows with two keystroks
 " from Ben Klein's post http://blog.unixphilosopher.com/2015/02/five-weird-vim-tricks.html
@@ -219,6 +213,45 @@ noremap <C-h> <C-w>h
 noremap <C-j> <C-w>j
 noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
+
+"}}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Multi-encoding Setting {{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set encoding=utf-8                                              " use utf-8 to save files
+
+set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1 " try fileencodings below.
+                                                                " your vim should be compiled with multi_byte option
+"}}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Formatting {{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set autoindent                  " Indent at the same level of the previous line
+set wrap                        " wrap long lines
+
+" <Tab> related settings
+set shiftwidth=4                " Use indents of 4 spaces
+set shiftround                  " Round indent to multiple of 'shiftwidth'.  Applies to > and < commands.
+set expandtab                   " Tabs are spaces, not tabs
+set tabstop=4                   " actual tabs occupy 8 characters ( VIM's default is 8 )
+set softtabstop=4               " Let backspace delete indent
+
+set nojoinspaces                " Prevents inserting two spaces after punctuation on a join (J)
+set colorcolumn=+1              " highlight column after 'textwidth'
+
+" Configure backspace so it acts as it should act
+set backspace=eol,start,indent
+set whichwrap+=<,>
+
+"}}}
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" keyboard shortcuts {{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"let mapleader = ','
+let mapleader = "\<Space>"
 
 " Exit insert mode without ESC. uncomment if you need it.
 "inoremap jk <Esc>
@@ -241,22 +274,17 @@ noremap <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo '
 " in case you forgot to sudo
 cnoremap w!! %!sudo tee > /dev/null %
 
+"}}}
 
-" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
-if executable('ag')
-    " Use ag over grep
-    set grepprg="ag --nogroup --nocolor"
-elseif executable('ack')
-    " Use ack over grep
-    set grepprg="ack -s -H --nocolor --nogroup --column"
-endif
-
-" Filetype settings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Filetype settings {{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fdoc is yaml
 autocmd BufRead,BufNewFile *.fdoc set filetype=yaml
 " md is markdown
 autocmd BufRead,BufNewFile \*.{md,mdwn,mkd,mkdn,markdown} set filetype=markdown
 autocmd BufRead,BufNewFile \*.{md,mdwn,mkd,mkdn,markdown} set spell
+
 " extra rails.vim help
 autocmd User Rails silent! Rnavcommand decorator      app/decorators            -glob=**/* -suffix=_decorator.rb
 autocmd User Rails silent! Rnavcommand observer       app/observers             -glob=**/* -suffix=_observer.rb
@@ -264,8 +292,6 @@ autocmd User Rails silent! Rnavcommand feature        features                  
 autocmd User Rails silent! Rnavcommand job            app/jobs                  -glob=**/* -suffix=_job.rb
 autocmd User Rails silent! Rnavcommand mediator       app/mediators             -glob=**/* -suffix=_mediator.rb
 autocmd User Rails silent! Rnavcommand stepdefinition features/step_definitions -glob=**/* -suffix=_steps.rb
-" automatically rebalance windows on vim resize
-autocmd VimResized * :wincmd =
 
 autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
 autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
@@ -282,7 +308,7 @@ autocmd FileType haskell,rust setlocal nospell
 autocmd BufRead,BufNewFile *.scss set filetype=scss.css
 autocmd FileType scss set iskeyword+=-
 
-"------------Start Python PEP 8 stuff----------------
+"Python PEP 8 stuff {{{2
 " Number of spaces that a pre-existing tab is equal to.
 au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
 "spaces for indents
@@ -304,16 +330,11 @@ au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
 " Use UNIX (\n) line endings.
 au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
 
+"}}}
 
-" Fix Cursor in TMUX
-if exists('$TMUX')
-    let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
-    let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
-else
-    let &t_SI = "\<Esc>]50;CursorShape=1\x7"
-    let &t_EI = "\<Esc>]50;CursorShape=0\x7"
-endif
-
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Some tweaks {{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Don't copy the contents of an overwritten selection.
 vnoremap p "_dP
 
@@ -325,6 +346,36 @@ if has('clipboard')
         set clipboard=unnamed
     endif
 endif
+
+" Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
+if executable('ag')
+    " Use ag over grep
+    set grepprg="ag --nogroup --nocolor"
+elseif executable('ack')
+    " Use ack over grep
+    set grepprg="ack -s -H --nocolor --nogroup --column"
+endif
+
+" Restore cursor position when reopen a file
+" http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
+" Restore cursor to file position in previous editing session
+" To disable this, add the following to your .vimrc.local file:
+"   let g:max_no_restore_cursor = 1
+if !exists('g:max_no_restore_cursor')
+    function! ResCur()
+        if line("'\"") <= line("$")
+            normal! g`"
+            return 1
+        endif
+    endfunction
+
+    augroup resCur
+        autocmd!
+        autocmd BufWinEnter * call ResCur()
+    augroup END
+endif
+
+"}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " IMPORTANT!!!!!!!                                            "
@@ -348,21 +399,4 @@ if has('gui_running')
     endif
 endif
 
-" Restore cursor position when reopen a file
-" http://vim.wikia.com/wiki/Restore_cursor_to_file_position_in_previous_editing_session
-" Restore cursor to file position in previous editing session
-" To disable this, add the following to your .vimrc.local file:
-"   let g:max_no_restore_cursor = 1
-if !exists('g:max_no_restore_cursor')
-    function! ResCur()
-        if line("'\"") <= line("$")
-            normal! g`"
-            return 1
-        endif
-    endfunction
-
-    augroup resCur
-        autocmd!
-        autocmd BufWinEnter * call ResCur()
-    augroup END
-endif
+" vim: ft=vim:fdm=marker:et:sw=4:

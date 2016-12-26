@@ -1,9 +1,13 @@
+" this script has been writen in utf-8 encoding
+scriptencoding utf-8
 " #################################
 " Dependence
 " #################################
 " package dependence:  ctags, ag(he_silver_searcher)
 " python dependence:   pep8, pyflake" Bundles here are part of the core Maximum Awesome setup
 
+filetype on " without this vim emits a zero exit status, later, because of :ft off
+filetype off " REQUIRED! ensure filetype is off
 
 " #################################
 " Plugin Management
@@ -24,6 +28,7 @@ if !exists('g:bundle_groups')
     let g:bundle_groups=['python', 'json', 'markdown', 'html', 'css', 'tmux']
 endif
 
+call plug#begin('~/.vim/plugged')
 """""""""""""""""""""""""""""""
 " Generial {{{1
 """""""""""""""""""""""""""""""
@@ -135,6 +140,9 @@ Plug 'nathanaelkane/vim-indent-guides'
 
 " Object
 Plug 'michaeljsmith/vim-indent-object'
+
+" Keymap-display
+Plug 'hecal3/vim-leader-guide'
 " }}}
 " }}}
 
@@ -281,6 +289,10 @@ if count(g:bundle_groups, 'macos')
     Plug 'rizzatti/dash.vim'
 endif
 "}}}
+
+" Add plugins to &runtimepath
+call plug#end()
+
 "}}}
 
 " #################################
@@ -613,23 +625,8 @@ endif
 
     " }}}
 
-
-    " ################### 显示增强-主题 ###################"
-
-    " solarized {{{2
-    let g:solarized_termtrans=1
-    let g:solarized_contrast="normal"
-    let g:solarized_visibility="normal"
-    " let g:solarized_termcolors=256
-    " }}}
-
-    " molokai {{{2
-    " monokai原始背景色
-    let g:molokai_original = 1
-    let g:rehash256 = 1
-    " }}}
-
-    " ################### 快速导航 ###################
+    " vim-leader-guide
+    " 
 
     " nerdtree nerdtreetabs {{{2
     map <leader>n :NERDTreeToggle<CR>
