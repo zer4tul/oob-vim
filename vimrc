@@ -232,7 +232,7 @@ nnoremap <leader>f :NERDTreeToggle<CR>:NERDTreeFind<CR>
 nnoremap <leader>t :CtrlP<CR>
 nnoremap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
 nnoremap <leader>] :TagbarToggle<CR>
-nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
+"nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
 nnoremap <leader>g :GitGutterToggle<CR>
 
 " reload vimrc
@@ -244,8 +244,11 @@ cnoremap w!! %!sudo tee > /dev/null %
 
 " Use The Silver Searcher https://github.com/ggreer/the_silver_searcher
 if executable('ag')
-    " Use Ag over Grep
-    set grepprg=ag\ --nogroup\ --nocolor
+    " Use ag over grep
+    set grepprg="ag --nogroup --nocolor"
+elseif executable('ack')
+    " Use ack over grep
+    set grepprg="ack -s -H --nocolor --nogroup --column"
 endif
 
 " Filetype settings
@@ -301,19 +304,6 @@ au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
 " Use UNIX (\n) line endings.
 au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
 
-
-" PyMode
-" Disable if python support not present
-if !has('python')
-    let g:pymode = 0
-endif
-
-if isdirectory(expand("~/.vim/bundle/python-mode"))
-    let g:pymode_lint_checkers = ['pyflakes']
-    let g:pymode_trim_whitespaces = 0
-    let g:pymode_options = 0
-    let g:pymode_rope = 0
-endif
 
 " Fix Cursor in TMUX
 if exists('$TMUX')

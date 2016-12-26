@@ -83,9 +83,6 @@ Plug 'tpope/vim-unimpaired'
 " smart selection of the closest text object
 Plug 'gcmt/wildfire.vim'
 
-" quick comment
-Plug 'scrooloose/nerdcommenter'
-
 " ack/ag
 if executable('ack') || executable('ag')
     Plug 'mileszs/ack.vim'
@@ -194,7 +191,7 @@ if count(g:bundle_groups, 'python')
     Plug 'Glench/Vim-Jinja2-Syntax'
     "Plug 'jmcantrell/vim-virtualenv'
     "Plug 'davidhalter/jedi-vim'
-    "Plug 'klen/python-mode'
+    Plug 'python-mode/python-mode', {'for': 'python'}
 endif
 "}}}
 
@@ -437,14 +434,14 @@ endif
 " }}}
 
 " trailingwhitespace {{{2
-    map <leader><space> :FixWhitespace<cr>
+""    map <leader>t<space> :FixWhitespace<cr>
 " }}}
 
-" easyalign {{{2
-    vmap <Leader>a <Plug>(EasyAlign)
-    nmap <Leader>a <Plug>(EasyAlign)
+" vim-easy-align {{{2
+    vmap <leader>a <Plug>(EasyAlign)
+    nmap <leader>a <Plug>(EasyAlign)
     if !exists('g:easy_align_delimiters')
-    let g:easy_align_delimiters = {}
+        let g:easy_align_delimiters = {}
     endif
     let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
 " }}}
@@ -731,6 +728,23 @@ endif
     map <F10> :QuickRun<CR>
     " }}}
 
+    " python-mode {{{2
+    " Disable if python support not present
+    if !has('python')
+        let g:pymode = 0
+    endif
+
+    if !has('python') && !has('python3')
+        let g:pymode = 0
+    endif
+
+    if isdirectory(expand("~/.vim/plugged/python-mode"))
+        let g:pymode_lint_checkers = ['pyflakes']
+        let g:pymode_trim_whitespaces = 0
+        let g:pymode_options = 0
+        let g:pymode_rope = 0
+    endif
+    " }}}
 
     " pythonsyntax {{{2
     let python_highlight_all = 1
@@ -768,11 +782,11 @@ endif
     " css {{{2
     " }}}
 
-"}}}
+    "}}}
 
-" Use local settings if available
-if filereadable(expand("~/.vimrc.bundles.local"))
-    source ~/.vimrc.bundles.local
-endif
+    " Use local settings if available
+    if filereadable(expand("~/.vimrc.bundles.local"))
+        source ~/.vimrc.bundles.local
+    endif
 
-" vim: ft=vim:fdm=marker:et:sw=4:
+    " vim: ft=vim:fdm=marker:et:sw=4:
