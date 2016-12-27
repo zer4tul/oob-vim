@@ -1,12 +1,22 @@
-" this script has been writen in utf-8 encoding
-scriptencoding utf-8
-
-" don't bother with vi compatibility
-set nocompatible
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Initialization {{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+" Encoding Setting {{{2
+" use utf-8 to save files it should be set before scriptencoding.
+set encoding=utf-8
+
+" this script has been writen in utf-8 encoding
+scriptencoding utf-8
+
+set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1 " try fileencodings below.
+                                                                " your vim should be compiled with multi_byte option
+"}}}
+
+" don't bother with vi compatibility, default is off when $HOME/.vimrc or
+" .gvimrc exists. just ensure.
+set nocompatible
+
 
 " Identify platform {{{2
 silent function! OSX()
@@ -58,17 +68,17 @@ function! InitializeDirectories()
 
     for [dirname, settingname] in items(dir_list)
         let directory = common_dir . dirname . '/'
-        if exists("*mkdir")
+        if exists('*mkdir')
             if !isdirectory(directory)
                 call mkdir(directory)
             endif
         endif
         if !isdirectory(directory)
-            echo "Warning: Unable to create backup directory: " . directory
-            echo "Try: mkdir -p " . directory
+            echo 'Warning: Unable to create backup directory: ' . directory
+            echo 'Try: mkdir -p ' . directory
         else
-            let directory = substitute(directory, " ", "\\\\ ", "g")
-            exec "set " . settingname . "=" . directory
+            let directory = substitute(directory, ' ', '\\\\ ', 'g')
+            exec 'set ' . settingname . '=' . directory
         endif
     endfor
 endfunction
@@ -76,7 +86,7 @@ call InitializeDirectories()
 "}}}
 
 " configure plugin manager & install plugins
-if filereadable(expand("~/.vimrc.bundles"))
+if filereadable(expand('~/.vimrc.bundles'))
     source ~/.vimrc.bundles
 endif
 
@@ -167,7 +177,10 @@ set listchars=tab:▸\ ,trail:▫,extends:#,nbsp:.
 set scrolloff=5                                              " show context above/below cursorline
 
 " automatically rebalance windows on vim resize
-autocmd VimResized * :wincmd =
+augroup resize_window
+    autocmd!
+    autocmd VimResized * :wincmd =
+augroup END
 
 " these two options below will highlight the line/column where the cursor is. may slow down the terminal when
 " they turned on
@@ -175,7 +188,7 @@ autocmd VimResized * :wincmd =
 "set cursorcolumn                                             " highlight current column
 
 " Fix background color render problems in tmux and GNU screen
-if &term =~ "256"                                            " if we should use 256 colors
+if &term =~? '256'                                            " if we should use 256 colors
     set t_Co=256
     " disable Background Color Erase (BCE) so that color schemes
     " render properly when inside 256-color tmux and GNU screen.
@@ -216,14 +229,6 @@ noremap <C-l> <C-w>l
 
 "}}}
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Multi-encoding Setting {{{1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set encoding=utf-8                                              " use utf-8 to save files
-
-set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1 " try fileencodings below.
-                                                                " your vim should be compiled with multi_byte option
-"}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Formatting {{{1
@@ -280,55 +285,77 @@ cnoremap w!! %!sudo tee > /dev/null %
 " Filetype settings {{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " fdoc is yaml
-autocmd BufRead,BufNewFile *.fdoc set filetype=yaml
+augroup filetype_fdoc
+    autocmd!
+    autocmd BufRead,BufNewFile *.fdoc set filetype=yaml
+augroup END
 " md is markdown
-autocmd BufRead,BufNewFile \*.{md,mdwn,mkd,mkdn,markdown} set filetype=markdown
-autocmd BufRead,BufNewFile \*.{md,mdwn,mkd,mkdn,markdown} set spell
+augroup filetype_markdown
+    autocmd!
+    autocmd BufRead,BufNewFile \*.{md,mdwn,mkd,mkdn,markdown} set filetype=markdown
+    autocmd BufRead,BufNewFile \*.{md,mdwn,mkd,mkdn,markdown} set spell
+augroup END
 
 " extra rails.vim help
-autocmd User Rails silent! Rnavcommand decorator      app/decorators            -glob=**/* -suffix=_decorator.rb
-autocmd User Rails silent! Rnavcommand observer       app/observers             -glob=**/* -suffix=_observer.rb
-autocmd User Rails silent! Rnavcommand feature        features                  -glob=**/* -suffix=.feature
-autocmd User Rails silent! Rnavcommand job            app/jobs                  -glob=**/* -suffix=_job.rb
-autocmd User Rails silent! Rnavcommand mediator       app/mediators             -glob=**/* -suffix=_mediator.rb
-autocmd User Rails silent! Rnavcommand stepdefinition features/step_definitions -glob=**/* -suffix=_steps.rb
+augroup filetype_rails
+    autocmd!
+    autocmd User Rails silent! Rnavcommand decorator      app/decorators            -glob=**/* -suffix=_decorator.rb
+    autocmd User Rails silent! Rnavcommand observer       app/observers             -glob=**/* -suffix=_observer.rb
+    autocmd User Rails silent! Rnavcommand feature        features                  -glob=**/* -suffix=.feature
+    autocmd User Rails silent! Rnavcommand job            app/jobs                  -glob=**/* -suffix=_job.rb
+    autocmd User Rails silent! Rnavcommand mediator       app/mediators             -glob=**/* -suffix=_mediator.rb
+    autocmd User Rails silent! Rnavcommand stepdefinition features/step_definitions -glob=**/* -suffix=_steps.rb
+augroup END
 
-autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
-autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
+augroup filetype_html
+    autocmd!
+    autocmd BufNewFile,BufRead *.html.twig set filetype=html.twig
+augroup END
+
+augroup filetype_haskell
+    autocmd!
+    autocmd FileType haskell,puppet,ruby,yml setlocal expandtab shiftwidth=2 softtabstop=2
+    " Workaround vim-commentary for Haskell
+    autocmd FileType haskell setlocal commentstring=--\ %s
+    " Workaround broken colour highlighting in Haskell
+    autocmd FileType haskell,rust setlocal nospell
+augroup END
 " preceding line best in a plugin but here for now.
 
-autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+augroup filetype_coffee
+    autocmd!
+    autocmd BufNewFile,BufRead *.coffee set filetype=coffee
+augroup END
 
-" Workaround vim-commentary for Haskell
-autocmd FileType haskell setlocal commentstring=--\ %s
-" Workaround broken colour highlighting in Haskell
-autocmd FileType haskell,rust setlocal nospell
 
 " workaround for LESS & SCSS
-autocmd BufRead,BufNewFile *.scss set filetype=scss.css
-autocmd FileType scss set iskeyword+=-
+augroup filetype_css
+    autocmd!
+    autocmd BufRead,BufNewFile *.scss set filetype=scss.css
+    autocmd FileType scss set iskeyword+=-
+augroup END
 
 "Python PEP 8 stuff {{{2
-" Number of spaces that a pre-existing tab is equal to.
-au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
-"spaces for indents
-au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
-au BufRead,BufNewFile *.py,*.pyw set expandtab
-au BufRead,BufNewFile *.py set softtabstop=4
+augroup filetype_python
+    autocmd!
+    " Number of spaces that a pre-existing tab is equal to.
+    autocmd BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
+    "spaces for indents
+    autocmd BufRead,BufNewFile *.py,*pyw set shiftwidth=4
+    autocmd BufRead,BufNewFile *.py,*.pyw set expandtab
+    autocmd BufRead,BufNewFile *.py set softtabstop=4
 
-" Use the below highlight group when displaying bad whitespace is desired.
-highlight BadWhitespace ctermbg=red guibg=red
+    " Display tabs at the beginning of a line in Python mode as bad.
+    autocmd BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+    " Make trailing whitespace be flagged as bad.
+    autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
-" Display tabs at the beginning of a line in Python mode as bad.
-au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
-" Make trailing whitespace be flagged as bad.
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+    " Wrap text after a certain number of characters
+    autocmd BufRead,BufNewFile *.py,*.pyw, set textwidth=100
 
-" Wrap text after a certain number of characters
-au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
-
-" Use UNIX (\n) line endings.
-au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
+    " Use UNIX (\n) line endings.
+    autocmd BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
+augroup END
 
 "}}}
 
@@ -363,7 +390,7 @@ endif
 "   let g:max_no_restore_cursor = 1
 if !exists('g:max_no_restore_cursor')
     function! ResCur()
-        if line("'\"") <= line("$")
+        if line("'\"") <= line('$')
             normal! g`"
             return 1
         endif
@@ -388,13 +415,13 @@ endif
 "endif
 
 " Read local settings
-if filereadable(expand("~/.vimrc.local"))
+if filereadable(expand('~/.vimrc.local'))
     source ~/.vimrc.local
 endif
 
 " Use local gvimrc if available and gui is running
 if has('gui_running')
-    if filereadable(expand("~/.gvimrc.local"))
+    if filereadable(expand('~/.gvimrc.local'))
         source ~/.gvimrc.local
     endif
 endif
