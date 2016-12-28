@@ -118,9 +118,11 @@ if executable('ctags')
 endif
 
 " NERDTree
-Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+"Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'scrooloose/nerdtree'
 Plug 'xuyuanp/nerdtree-git-plugin'
-Plug 'jistr/vim-nerdtree-tabs'
+" I dont use tabs, uncomment if you need to make nerdtree stick through tabs
+"Plug 'jistr/vim-nerdtree-tabs'
 
 " ctrlspace
 Plug 'vim-ctrlspace/vim-ctrlspace'
@@ -638,14 +640,12 @@ endif
     let g:NERDTreeMapOpenSplit = 's'
     let g:NERDTreeMapOpenVSplit = 'v'
 
-    "nerdtree-tabs
-    " 关闭同步
-    let g:nerdtree_tabs_synchronize_view=0
-    let g:nerdtree_tabs_synchronize_focus=0
-    " 是否自动开启nerdtree
-    " thank to @ListenerRi, see https://github.com/wklken/k-vim/issues/165
-    let g:nerdtree_tabs_open_on_console_startup=0
-    let g:nerdtree_tabs_open_on_gui_startup=0
+    augroup nerdtree
+        autocmd!
+        autocmd StdinReadPre * let s:std_in=1
+        autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+        autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | enew | endif
+    augroup END
 
     " nerdtree-git-plugin
     let g:NERDTreeIndicatorMapCustom = {

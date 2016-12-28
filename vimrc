@@ -5,6 +5,7 @@
 " Encoding Setting {{{2
 " use utf-8 to save files it should be set before scriptencoding.
 set encoding=utf-8
+set fileencoding=utf-8
 
 " this script has been writen in utf-8 encoding
 scriptencoding utf-8
