@@ -351,27 +351,34 @@ call plug#end()
     endfunction
     nnoremap <Leader>s :call ToggleErrors()<cr>
 
-    " ,en ,ep to jump between errors
-    function! <SID>LocationPrevious()
-    try
-        lprev
-    catch /^Vim\%((\a\+)\)\=:E553/
-        llast
-    endtry
+    " wrap :cnext/:cprevious and :lnext/:lprevious
+    " from
+    " :http://stackoverflow.com/questions/27198612/vim-location-list-how-to-go-to-first-location-if-at-last-location/27204000#27204000
+    function! WrapCommand(direction, prefix)
+        if a:direction ==? 'up'
+            try
+                execute a:prefix . 'previous'
+            catch /^Vim\%((\a\+)\)\=:E553/
+                execute a:prefix . 'last'
+            catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+            endtry
+        elseif a:direction ==? 'down'
+            try
+                execute a:prefix . 'next'
+            catch /^Vim\%((\a\+)\)\=:E553/
+                execute a:prefix . 'first'
+            catch /^Vim\%((\a\+)\)\=:E\%(776\|42\):/
+            endtry
+        endif
     endfunction
 
-    function! <SID>LocationNext()
-    try
-        lnext
-    catch /^Vim\%((\a\+)\)\=:E553/
-        lfirst
-    endtry
-    endfunction
+    " <leader>ep and <leader>en go up and down the location list and wrap around
 
-    nnoremap <silent> <Plug>LocationPrevious    :<C-u>exe 'call <SID>LocationPrevious()'<CR>
-    nnoremap <silent> <Plug>LocationNext        :<C-u>exe 'call <SID>LocationNext()'<CR>
-    nmap <silent> <Leader>ep    <Plug>LocationPrevious
-    nmap <silent> <Leader>en    <Plug>LocationNext
+
+    nnoremap <silent> <Leader>ec    <Plug>SyntasticReset
+    nnoremap <silent> <Leader>eh    <Plug>SyntasticInfo
+    nnoremap <silent> <leader>ep :call WrapCommand('up', 'l')<CR>
+    nnoremap <silent> <leader>en  :call WrapCommand('down', 'l')<CR>
 
     " disable java checking
     " thanks to @marsqing, see https://github.com/wklken/k-vim/issues/164
@@ -553,14 +560,13 @@ call plug#end()
 
 " fugitive {{{2
     " :Gdiff  :Gstatus :Gvsplit
-    nnoremap <leader>ge :Gdiff<CR>
     " not ready to open
-    " <leader>gb maps to :Gblame<CR>
-    " <leader>gs maps to :Gstatus<CR>
-    " <leader>gd maps to :Gdiff<CR>  和现有冲突
-    " <leader>gl maps to :Glog<CR>
-    " <leader>gc maps to :Gcommit<CR>
-    " <leader>gp maps to :Git push<CR>
+    nnoremap <leader>gb :Gblame<CR>
+    nnoremap <leader>gc :Gcommit<CR>
+    nnoremap <leader>gd :Gdiff<CR>
+    nnoremap <leader>gl :Glog<CR>
+    nnoremap <leader>gp :Gpush<CR>
+    nnoremap <leader>gs :Gstatus<CR>
 " }}}
 
 " gitgutter {{{2
@@ -569,7 +575,7 @@ call plug#end()
     let g:gitgutter_map_keys = 0
     let g:gitgutter_enabled = 0
     let g:gitgutter_highlight_lines = 1
-    nnoremap <leader>gs :GitGutterToggle<CR>
+    nnoremap <leader>gg :GitGutterToggle<CR>
 " }}}
 
 " gundo {{{2
@@ -630,8 +636,10 @@ endif
     " vim-leader-guide
     " 
 
-    " nerdtree nerdtreetabs {{{2
-    map <leader>n :NERDTreeToggle<CR>
+    " nerdtree {{{2
+    nmap <leader>fd :NERDTreeToggle<CR>
+    nmap <leader>ff :NERDTreeFind<CR>
+    "map <leader>n :NERDTreeToggle<CR>
     let NERDTreeHighlightCursorline=1
     let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
     "close vim if the only window left open is a NERDTree

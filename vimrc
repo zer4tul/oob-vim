@@ -217,17 +217,6 @@ endif
 set background=dark                                          " use dark background
 
 
-" Wrapped lines goes down/up to next row, rather than next line in file.
-noremap j gj
-noremap k gk
-
-" switch windows with two keystroks
-" from Ben Klein's post http://blog.unixphilosopher.com/2015/02/five-weird-vim-tricks.html
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
-
 "}}}
 
 
@@ -250,35 +239,6 @@ set colorcolumn=+1              " highlight column after 'textwidth'
 " Configure backspace so it acts as it should act
 set backspace=eol,start,indent
 set whichwrap+=<,>
-
-"}}}
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" keyboard shortcuts {{{1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"let mapleader = ','
-let mapleader = "\<Space>"
-
-" Exit insert mode without ESC. uncomment if you need it.
-"inoremap jk <Esc>
-
-nmap <leader>xa <Plug>(EasyAlign)
-xmap <leader>xa <Plug>(EasyAlign)
-nnoremap <leader>/ :Ack!<space>
-nnoremap <leader>b :CtrlPBuffer<CR>
-nnoremap <leader>d :NERDTreeToggle<CR>
-nnoremap <leader>f :NERDTreeToggle<CR>:NERDTreeFind<CR>
-nnoremap <leader>t :CtrlP<CR>
-nnoremap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
-nnoremap <leader>] :TagbarToggle<CR>
-"nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
-nnoremap <leader>g :GitGutterToggle<CR>
-
-" reload vimrc
-noremap <silent> <leader>V :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
-
-" in case you forgot to sudo
-cnoremap w!! %!sudo tee > /dev/null %
 
 "}}}
 
@@ -404,6 +364,89 @@ if !exists('g:max_no_restore_cursor')
 endif
 
 "}}}
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Key Mappings {{{1
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+"let mapleader = ','
+let mapleader = "\<Space>"
+
+" Exit insert mode without ESC. uncomment if you need it.
+"inoremap jk <Esc>
+
+nmap <leader>xa <Plug>(EasyAlign)
+xmap <leader>xa <Plug>(EasyAlign)
+nnoremap <leader>/ :Ack!<space>
+nnoremap <leader>b :CtrlPBuffer<CR>
+nnoremap <leader>t :CtrlP<CR>
+nnoremap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
+nnoremap <leader>] :TagbarToggle<CR>
+"nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
+" nnoremap <leader>g :GitGutterToggle<CR>
+
+" reload vimrc
+noremap <silent> <leader>fR :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
+" in case you forgot to sudo
+cnoremap w!! %!sudo tee > /dev/null %
+
+" Wrapped lines goes down/up to next row, rather than next line in file.
+noremap j gj
+noremap k gk
+
+" switch windows with two keystroks
+" from Ben Klein's post http://blog.unixphilosopher.com/2015/02/five-weird-vim-tricks.html
+noremap <C-h> <C-w>h
+noremap <C-j> <C-w>j
+noremap <C-k> <C-w>k
+noremap <C-l> <C-w>l
+
+" Define prefix dictionary
+let g:lmap =  {}
+
+" Second level dictionaries:
+let g:lmap.c = { 'name' : 'comment' }
+let g:lmap.e = { 'name' : 'errors' }
+let g:lmap.f = { 'name' : 'file' }
+let g:lmap.g = { 'name' : 'git/version control' }
+let g:lmap.j = { 'name' : 'jump' }
+let g:lmap.x = { 'name' : 'text' }
+" 'name' is a special field. It will define the name of the group.
+" leader-f is the "File Menu" group.
+" Unnamed groups will show a default string
+
+" file related key mappings
+let g:lmap.f.d = [':NERDTreeToggle', 'Toggle NERDTree']
+let g:lmap.f.f = ['NERDTreeFind', 'Find in NERDTree']
+let g:lmap.f.R = ['source ~/.vimrc', 'reload vimrc']
+
+" error related key mappings
+let g:lmap.e.r = ['SyntasticReset', 'syntastic clear']
+let g:lmap.e.h = ['SyntasticInfo', 'describe checker']
+let g:lmap.e.n = [':call WrapCommand("down", "l")', 'previous error']
+let g:lmap.e.p = [':call WrapCommand("up", "l")', 'next error']
+
+" git related key mappings
+let g:lmap.g.b = [':Gblame', 'git blame']
+let g:lmap.g.c = [':Gcommit', 'git commit']
+let g:lmap.g.d = [':Gdiff', 'git diff']
+let g:lmap.g.l = [':Glog', 'git log']
+let g:lmap.g.p = [':Gpush', 'git push']
+let g:lmap.g.s = [':Gstatus', 'git status']
+let g:lmap.g.g = [':GitGutterToggle', 'Git gutter']
+
+" jump
+let g:lmap.j.d = [':YcmCompleter GoTo', 'jump to']
+let g:lmap.j.D = [':YcmCompleter GoToDeclaration', 'jump to']
+
+
+call leaderGuide#register_prefix_descriptions('<Space>', 'g:lmap')
+nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
+vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
+
+"}}}
+
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " IMPORTANT!!!!!!!                                            "
