@@ -376,12 +376,7 @@ let mapleader = "\<Space>"
 " Exit insert mode without ESC. uncomment if you need it.
 "inoremap jk <Esc>
 
-nmap <leader>xa <Plug>(EasyAlign)
-xmap <leader>xa <Plug>(EasyAlign)
 nnoremap <leader>/ :Ack!<space>
-nnoremap <leader>b :CtrlPBuffer<CR>
-nnoremap <leader>t :CtrlP<CR>
-nnoremap <leader>T :CtrlPClearCache<CR>:CtrlP<CR>
 nnoremap <leader>] :TagbarToggle<CR>
 "nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
 " nnoremap <leader>g :GitGutterToggle<CR>
@@ -439,7 +434,26 @@ let g:lmap.g.g = [':GitGutterToggle', 'Git gutter']
 " jump
 let g:lmap.j.d = [':YcmCompleter GoTo', 'jump to']
 let g:lmap.j.D = [':YcmCompleter GoToDeclaration', 'jump to']
+let g:lmap.j.f = [':CtrlPFunky', 'jump without ctag']
+let g:lmap.j.F = [':execute "CtrlPFunky " . expand("<cword>")', 'init a list by a word under cursor']
+let g:lmap.j.m = [':CtrlPMRU', 'most recent used']
+let g:lmap.j.b = [':CtrlPBuffer', 'jump to buffer']
+let g:lmap.j.p = [':CtrlP', 'ctrlp']
+let g:lmap.j.T = [':CtrlPClearCache', 'clear cache']
 
+let g:leaderGuide_submode_mappings = {
+    \ '<C-C>': 'win_close',
+    \ '<C-F>': 'page_down',
+    \ '<C-B>': 'page_up'
+    \}
+
+augroup leader_guide_prevent
+    " for fugitive
+    autocmd FileType gitcommit  noremap <buffer> <leader> <Plug>leaderguide-buffer
+
+    " for tagbar
+    autocmd BufEnter __Tagbar__  noremap <buffer> <leader> <Plug>leaderguide-buffer
+augroup END
 
 call leaderGuide#register_prefix_descriptions('<Space>', 'g:lmap')
 nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>

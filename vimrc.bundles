@@ -455,8 +455,8 @@ call plug#end()
 " }}}
 
 " vim-easy-align {{{2
-    vmap <leader>a <Plug>(EasyAlign)
-    nmap <leader>a <Plug>(EasyAlign)
+    nmap <leader>xa <Plug>(EasyAlign)
+    xmap <leader>xa <Plug>(EasyAlign)
     if !exists('g:easy_align_delimiters')
         let g:easy_align_delimiters = {}
     endif
@@ -506,9 +506,8 @@ call plug#end()
 " ################### 功能相关 ###################
 
 " ctrlp ctrlpfunky{{{2
-    let g:ctrlp_map = '<leader>p'
+    let g:ctrlp_map = '<leader>jp'
     let g:ctrlp_cmd = 'CtrlP'
-    map <leader>f :CtrlPMRU<CR>
     let g:ctrlp_custom_ignore = {
         \ 'dir':  '\v[\/]\.(git|hg|svn|rvm)$',
         \ 'file': '\v\.(exe|so|dll|zip|tar|tar.gz|pyc)$',
@@ -526,9 +525,15 @@ call plug#end()
 
     " ctrlpfunky
     " ctrlp插件1 - 不用ctag进行函数快速跳转
-    nnoremap <Leader>fu :CtrlPFunky<Cr>
+    nnoremap <Leader>jf :CtrlPFunky<Cr>
     " narrow the list down with a word under cursor
-    nnoremap <Leader>fU :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+    nnoremap <Leader>jF :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
+    map <leader>jm :CtrlPMRU<CR>
+    nnoremap <leader>jb :CtrlPBuffer<CR>
+    nnoremap <leader>jp :CtrlP<CR>
+    nnoremap <leader>jT :CtrlPClearCache<CR>:CtrlP<CR>
+
     let g:ctrlp_funky_syntax_highlight = 1
 
     let g:ctrlp_extensions = ['funky']
@@ -650,9 +655,13 @@ endif
 
     augroup nerdtree
         autocmd!
+        " open a NERDTree if vim starts up with no files were specified or
+        " on opening a directory
         autocmd StdinReadPre * let s:std_in=1
         autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
         autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | enew | endif
+        " close vim if the only window left open is NERDTree
+        autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
     augroup END
 
     " nerdtree-git-plugin
