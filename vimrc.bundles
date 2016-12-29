@@ -92,6 +92,7 @@ Plug 'gcmt/wildfire.vim'
 
 " quick f/F
 Plug 'unblevable/quick-scope'
+Plug 'easymotion/vim-easymotion'
 
 " run commands quickly
 Plug 'thinca/vim-quickrun'
@@ -125,7 +126,7 @@ Plug 'xuyuanp/nerdtree-git-plugin'
 "Plug 'jistr/vim-nerdtree-tabs'
 
 " ctrlspace
-Plug 'vim-ctrlspace/vim-ctrlspace'
+"Plug 'vim-ctrlspace/vim-ctrlspace'
 "}}}
 
 """""""""""""""""""""""""""""""
@@ -146,6 +147,7 @@ Plug 'morhetz/gruvbox'
 
 " hilight indents
 Plug 'nathanaelkane/vim-indent-guides'
+"Plug 'Yggdroot/indentLine'
 
 " Object
 Plug 'michaeljsmith/vim-indent-object'
@@ -463,17 +465,27 @@ call plug#end()
     let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
 " }}}
 
+" vim-indent-guides {{{2
+nmap <silent> <Leader>ti <Plug>IndentGuidesToggle
+
+"the percent at which the highlight colors will be lightened or darkened.
+let g:indent_guides_color_change_percent = 30
+let g:indent_guides_guide_size = 1
+let g:indent_guides_enable_on_vim_startup = 1
+let g:indent_guides_default_mapping = 0
+
+"}}}
 " ################### Motion ###################
 
 " easymotion {{{2
     let g:EasyMotion_smartcase = 1
     "let g:EasyMotion_startofline = 0 " keep cursor colum when JK motion
-    map <Leader><leader>h <Plug>(easymotion-linebackward)
-    map <Leader><Leader>j <Plug>(easymotion-j)
-    map <Leader><Leader>k <Plug>(easymotion-k)
-    map <Leader><leader>l <Plug>(easymotion-lineforward)
+    "map <Leader>h <Plug>(easymotion-linebackward)
+    "map <Leader>j <Plug>(easymotion-j)
+    "map <Leader>k <Plug>(easymotion-k)
+    "map <Leader>l <Plug>(easymotion-lineforward)
     " repeat
-    map <Leader><leader>. <Plug>(easymotion-repeat)
+    "map <Leader><leader>. <Plug>(easymotion-repeat)
 " }}}
 
 
@@ -682,11 +694,18 @@ endif
 
     " Vim Workspace Controller
     " ctrlspace {{{2
-    let g:airline_exclude_preview = 1
-    hi CtrlSpaceSelected guifg=#586e75 guibg=#eee8d5 guisp=#839496 gui=reverse,bold ctermfg=10 ctermbg=7 cterm=reverse,bold
-    hi CtrlSpaceNormal   guifg=#839496 guibg=#021B25 guisp=#839496 gui=NONE ctermfg=12 ctermbg=0 cterm=NONE
-    hi CtrlSpaceSearch   guifg=#cb4b16 guibg=NONE gui=bold ctermfg=9 ctermbg=NONE term=bold cterm=bold
-    hi CtrlSpaceStatus   guifg=#839496 guibg=#002b36 gui=reverse term=reverse cterm=reverse ctermfg=12 ctermbg=8
+    "let g:airline_exclude_preview = 1
+
+    "" if the silver searcher exists, use it. then if ack exsits, use it.
+    "if executable('ag')
+    "    let g:CtrlSpaceGlobCommand = 'ag -l --nocolor -g ""'
+    "elseif executable('ack')
+    "    let g:CtrlSpaceGlobCommand = 'ack --files-without-matches --no-color -g ""'
+    "endif
+    "hi CtrlSpaceSelected guifg=#586e75 guibg=#eee8d5 guisp=#839496 gui=reverse,bold ctermfg=10 ctermbg=7 cterm=reverse,bold
+    "hi CtrlSpaceNormal   guifg=#839496 guibg=#021B25 guisp=#839496 gui=NONE ctermfg=12 ctermbg=0 cterm=NONE
+    "hi CtrlSpaceSearch   guifg=#cb4b16 guibg=NONE gui=bold ctermfg=9 ctermbg=NONE term=bold cterm=bold
+    "hi CtrlSpaceStatus   guifg=#839496 guibg=#002b36 gui=reverse term=reverse cterm=reverse ctermfg=12 ctermbg=8
 
 
     " }}}

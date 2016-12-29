@@ -1,7 +1,9 @@
+scriptencoding utf-8
+
 """"""""""""""""""""""""""""""""""""
 " vim-airline
 """"""""""""""""""""""""""""""""""""
-if isdirectory(expand("~/.vim/plugged/vim-airline/"))
+if isdirectory(expand('~/.vim/plugged/vim-airline/'))
     if !exists('g:airline_powerline_fonts')
         " Do not use powerline fonts
         let g:airline_powerline_fonts=0
@@ -61,7 +63,7 @@ endif
 " Neocomplete/Deoplete & Neosnippet settings
 """""""""""""""""""""""""""""""""""""""""""""
 " if it is neovim run deoplete
-if has("nvim")
+if has('nvim')
     " deoplete.nvim recommend
     set completeopt+=noselect
 
@@ -295,27 +297,27 @@ endif
 " jedi-vim
 """""""""""""""""""""""""""""""""""""""""""""
 " do not popup the docstring window during completion
-autocmd FileType python setlocal completeopt-=preview
-let g:jedi#goto_assignments_command = "<leader>g"
-let g:jedi#goto_definitions_command = "<leader>d"
-let g:jedi#documentation_command = "K"
-let g:jedi#usages_command = "<leader>n"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#rename_command = "<leader>r"
+"autocmd FileType python setlocal completeopt-=preview
+"let g:jedi#goto_assignments_command = '<leader>g'
+"let g:jedi#goto_definitions_command = '<leader>d'
+"let g:jedi#documentation_command = 'K'
+"let g:jedi#usages_command = '<leader>n'
+"let g:jedi#completions_command = '<C-Space>'
+"let g:jedi#rename_command = '<leader>r'
 
 """""""""""""""""""""""""""""""""""""""""""""
 " Wildfire
 """""""""""""""""""""""""""""""""""""""""""""
 let g:wildfire_objects = {
-            \ "*" : ["i'", 'i"', "i)", "i]", "i}", "ip"],
-            \ "html,xml" : ["at"],
+            \ '*' : ["i'", 'i"', 'i)', 'i]', 'i}', 'ip'],
+            \ 'html,xml' : ['at'],
             \ }
 nmap <leader>s <Plug>(wildfire-quick-select)
 
 """""""""""""""""""""""""""""""""""""""""""""
 " vim-indent-guides
 """""""""""""""""""""""""""""""""""""""""""""
-if isdirectory(expand("~/.vim/plugged/vim-indent-guides/"))
+if isdirectory(expand('~/.vim/plugged/vim-indent-guides/'))
     let g:indent_guides_start_level = 2
     let g:indent_guides_guide_size = 1
     let g:indent_guides_enable_on_vim_startup = 1

@@ -152,7 +152,7 @@ set splitbelow                                               " Puts new split wi
 set number                                                   " show line numbers
 set laststatus=2                                             " always show statusline
 set title                                                    " change terminal title
-"set hlsearch                                                " Highlight search terms, maybe will conflict with some colorschemes
+set nohlsearch                                                " Highlight search terms maybe conflict with some colorschemes
 set ruler                                                    " show where you are
 
 set completeopt=longest,menu                                 " http://vim.wikia.com/wiki/Improve_completion_popup_menu
@@ -406,7 +406,9 @@ let g:lmap.e = { 'name' : 'errors' }
 let g:lmap.f = { 'name' : 'file' }
 let g:lmap.g = { 'name' : 'git/version control' }
 let g:lmap.j = { 'name' : 'jump' }
+let g:lmap.t = { 'name' : 'toggle' }
 let g:lmap.x = { 'name' : 'text' }
+
 " 'name' is a special field. It will define the name of the group.
 " leader-f is the "File Menu" group.
 " Unnamed groups will show a default string
@@ -440,6 +442,13 @@ let g:lmap.j.m = [':CtrlPMRU', 'most recent used']
 let g:lmap.j.b = [':CtrlPBuffer', 'jump to buffer']
 let g:lmap.j.p = [':CtrlP', 'ctrlp']
 let g:lmap.j.T = [':CtrlPClearCache', 'clear cache']
+
+" toggle settings
+let g:lmap.t.i = ['IndentGuidesToggle', 'toggle visualize indent']
+
+" text
+"let g:lmap.x.a.e = [':"<,">EasyAlign*=', 'align equal']
+"let g:lmap.x.a = ['(EasyAlign)', 'align equal']
 
 let g:leaderGuide_submode_mappings = {
     \ '<C-C>': 'win_close',
