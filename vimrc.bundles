@@ -71,6 +71,7 @@ Plug 'docunext/closetag.vim'
 Plug 'scrooloose/nerdcommenter'
 " align
 Plug 'junegunn/vim-easy-align'
+Plug 'godlygeek/tabular'
 Plug 'vim-scripts/matchit.zip'
 
 " Sublime alike multiple cursors supoort
@@ -405,7 +406,7 @@ call plug#end()
 
     let g:ycm_goto_buffer_command = 'horizontal-split' " goto the definition, open buffer horizontally
     nnoremap <leader>jd :YcmCompleter GoTo<CR>
-    nnoremap <leader>gd :YcmCompleter GoToDeclaration<CR>
+    nnoremap <leader>jD :YcmCompleter GoToDeclaration<CR>
 
     " old version
     if !empty(glob('~/.vim/bundle/YouCompleteMe/cpp/ycm/.ycm_extra_conf.py'))
@@ -431,7 +432,8 @@ call plug#end()
     let g:UltiSnipsSnippetsDir = '~/.vim/UltiSnips'
     " 定义存放代码片段的文件夹 .vim/UltiSnips下，使用自定义和默认的，将会的到全局，有冲突的会提示
     " 进入对应filetype的snippets进行编辑
-    map <leader>us :UltiSnipsEdit<CR>
+    map <leader>aua :UltiSnipsAddFiletypes<CR>
+    map <leader>aue :UltiSnipsEdit<CR>
 " }}}
 
 
@@ -457,22 +459,67 @@ call plug#end()
 " }}}
 
 " vim-easy-align {{{2
-    nmap <leader>xa <Plug>(EasyAlign)
-    xmap <leader>xa <Plug>(EasyAlign)
-    if !exists('g:easy_align_delimiters')
-        let g:easy_align_delimiters = {}
-    endif
-    let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
+"    " disabling &foldmethod during alignment
+"    let g:easy_align_bypass_fold = 1
+"
+"    if !exists('g:easy_align_delimiters')
+"        let g:easy_align_delimiters = {}
+"    endif
+"    let g:easy_align_delimiters['#'] = { 'pattern': '#', 'ignore_groups': ['String'] }
+"    let g:easy_align_delimiter_align = 1
+"
+"    map <leader>xa<Space>: EasyAlign*<Space><CR>
+"    map <leader>xa= :EasyAlign*=<CR>
+"    map <leader>xa<Bar> :EasyAlign*<Bar><CR>
+"    map <leader>xa\: :EasyAlign*:<CR>
+"    map <leader>xa" :EasyAlign*"<CR>
+"    map <leader>xa# :EasyAlign#"<CR>
+"    nmap <leader>xaa <Plug>(EasyAlign)
+"    xmap <leader>xaa <Plug>(EasyAlign)
 " }}}
+
+" tabular
+    if exists(':Tabularize')
+      nmap <Leader>xa<Space> :Tabularize /:\zs<CR>
+      vmap <Leader>xa<Space> :Tabularize /:\zs<CR>
+      nmap <Leader>xaa <Plug>(Tabularize)
+      vmap <Leader>xaa <Plug>(Tabularize)
+      nmap <Leader>xa= :Tabularize /^[^=]*\zs=<CR>
+      vmap <Leader>xa= :Tabularize /^[^=]*\zs=<CR>
+      nmap <Leader>xa: :Tabularize /:\zs<CR>
+      vmap <Leader>xa: :Tabularize /:\zs<CR>
+      nmap <Leader>xa<Bar>: :Tabularize /<Bar><CR>
+      vmap <Leader>xa<Bar>: :Tabularize /<Bar><CR>
+      nmap <Leader>xa" :Tabularize /"\zs<CR>
+      nmap <Leader>xa" :Tabularize /"\zs<CR>
+      vmap <Leader>xa# :Tabularize /#\zs<CR>
+      vmap <Leader>xa# :Tabularize /#\zs<CR>
+      nmap <Leader>xa, :Tabularize /,<CR>
+      vmap <Leader>xa, :Tabularize /,<CR>
+    endif
+
+    " auto align tables
+    inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
+
+    function! s:align()
+      let p = '^\s*|\s.*\s|\s*$'
+      if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
+        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+        Tabularize/|/l1
+        normal! 0
+        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+      endif
+    endfunction
 
 " vim-indent-guides {{{2
 nmap <silent> <Leader>ti <Plug>IndentGuidesToggle
 
 "the percent at which the highlight colors will be lightened or darkened.
-let g:indent_guides_color_change_percent = 30
-let g:indent_guides_guide_size = 1
+let g:indent_guides_color_change_percent  = 30
+let g:indent_guides_guide_size            = 1
 let g:indent_guides_enable_on_vim_startup = 1
-let g:indent_guides_default_mapping = 0
+let g:indent_guides_default_mapping       = 0
 
 "}}}
 " ################### Motion ###################

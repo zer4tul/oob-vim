@@ -14,6 +14,10 @@ set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1 " try fileencodi
                                                                 " your vim should be compiled with multi_byte option
 "}}}
 
+"let mapleader = ','
+let mapleader = "\<Space>"
+
+
 " don't bother with vi compatibility, default is off when $HOME/.vimrc or
 " .gvimrc exists. just ensure.
 set nocompatible
@@ -370,9 +374,6 @@ endif
 " Key Mappings {{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 
-"let mapleader = ','
-let mapleader = "\<Space>"
-
 " Exit insert mode without ESC. uncomment if you need it.
 "inoremap jk <Esc>
 
@@ -401,6 +402,8 @@ noremap <C-l> <C-w>l
 let g:lmap =  {}
 
 " Second level dictionaries:
+let g:lmap.a = { 'name' : 'applications' }
+let g:lmap.a.u = { 'name' : 'UltiSnips' }
 let g:lmap.c = { 'name' : 'comment' }
 let g:lmap.e = { 'name' : 'errors' }
 let g:lmap.f = { 'name' : 'file' }
@@ -408,10 +411,15 @@ let g:lmap.g = { 'name' : 'git/version control' }
 let g:lmap.j = { 'name' : 'jump' }
 let g:lmap.t = { 'name' : 'toggle' }
 let g:lmap.x = { 'name' : 'text' }
+let g:lmap.x.a = { 'name' : 'align' }
 
 " 'name' is a special field. It will define the name of the group.
 " leader-f is the "File Menu" group.
 " Unnamed groups will show a default string
+
+" applications
+let g:lmap.a.u.a = [':UltiSnipsAddFiletypes', 'add file type to snippet']
+let g:lmap.a.u.e = [':UltiSnipsEdit', 'edit snippet']
 
 " file related key mappings
 let g:lmap.f.d = [':NERDTreeToggle', 'Toggle NERDTree']
@@ -447,8 +455,26 @@ let g:lmap.j.T = [':CtrlPClearCache', 'clear cache']
 let g:lmap.t.i = ['IndentGuidesToggle', 'toggle visualize indent']
 
 " text
-"let g:lmap.x.a.e = [':"<,">EasyAlign*=', 'align equal']
-"let g:lmap.x.a = ['(EasyAlign)', 'align equal']
+let g:lmap.x.a = {
+            \'name' : 'quick align',
+            \' ' : [':Tabularize /<Space>', 'align space'],
+            \'=' : [':Tabularize /=', 'align equal'],
+            \':' : [':Tabularize /:\zs', 'align colon'],
+            \'|' : [':Tabularize /<Bar>', 'align pipeline'],
+            \'"' : [':Tabularize /"', 'align quotation mark'],
+            \'#' : [':Tabularize /#', 'align sharp'],
+            \',' : [':Tabularize /,\zs', 'align comma'],
+            \}
+"let g:lmap.x.a = {
+"            \'name' : 'align',
+"            \'a' : [':EasyAlign', 'interactive align'],
+"            \' ' : [':EasyAlign *\\', 'align space'],
+    "            \'=' : [':EasyAlign *=', 'align equal'],
+"            \':' : [':EasyAlign *:', 'align colon'],
+"            \'|' : [':EasyAlign *<Bar>', 'align pipeline'],
+"            \'"' : [':EasyAlign *"', 'align quotation mark'],
+"            \'#' : [':EasyAlign *#', 'align sharp'],
+"            \}
 
 let g:leaderGuide_submode_mappings = {
     \ '<C-C>': 'win_close',
