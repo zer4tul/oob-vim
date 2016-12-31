@@ -10,7 +10,7 @@ set fileencoding=utf-8
 " this script has been writen in utf-8 encoding
 scriptencoding utf-8
 
-set fileencodings=ucs-bom,utf-8,cp936,big5,euc-jp,euc-kr,latin1 " try fileencodings below.
+set fileencodings=ucs-bom,utf-8,cp936,euc-cn,big5,cp932,euc-jp,latin1 " try fileencodings below.
                                                                 " your vim should be compiled with multi_byte option
 "}}}
 
@@ -24,28 +24,34 @@ set nocompatible
 
 
 " Identify platform {{{2
-silent function! OSX()
-return has('macunix')
-        endfunction
-        silent function! LINUX()
-        return has('unix') && !has('macunix') && !has('win32unix')
-    endfunction
-    silent function! WINDOWS()
-    return  (has('win16') || has('win32') || has('win64'))
+function! Platform()
+    if has('macunix')
+        return 'mac'
+    elseif has('unix') && !has('macunix') && !has('win32unix')
+        return 'linux'
+    elseif has('win16') || has('win32') || has('win64')
+        return 'win'
+    endif
 endfunction
 "}}}
 
 " Windows Compatible {{{2
 " On Windows, also use '.vim' instead of 'vimfiles'; this makes synchronization
 " across (heterogeneous) systems easier.
-if WINDOWS()
+if Platform() ==? 'win'
     set runtimepath=$HOME/.vim,$VIM/vimfiles,$VIMRUNTIME,$VIM/vimfiles/after,$HOME/.vim/after
 endif
 
-if !WINDOWS()
+if Platform() !=? 'win'
     set shell=/bin/sh
 endif
 "}}}
+
+" if we are in vim or neovim
+if has('nvim')
+    let g:oob_in_nvim = 1
+endif
+
 
 " Initialize directories {{{2
 function! InitializeDirectories()
@@ -399,8 +405,18 @@ noremap <C-k> <C-w>k
 noremap <C-l> <C-w>l
 
 " Define prefix dictionary
-let g:lmap =  {}
-
+let g:lmap = {}
+"let g:lmap = {
+"            \'m' : {'name' : 'easymotion'},
+"            \'a' : {'name' : 'applications'},
+"            \'c' : {'name' : 'comment'},
+"            \'e' : {'name' : 'errors'},
+"            \'f' : {'name' : 'file'},
+"            \'g' : {'name' : 'git/version control'},
+"            \'j' : {'name' : 'jump'},
+"            \'t' : {'name' : 'toggle'},
+"            \'x' : {'name' : 'text'},
+"            \}
 " Second level dictionaries:
 let g:lmap.a = { 'name' : 'applications' }
 let g:lmap.a.u = { 'name' : 'UltiSnips' }
@@ -409,17 +425,26 @@ let g:lmap.e = { 'name' : 'errors' }
 let g:lmap.f = { 'name' : 'file' }
 let g:lmap.g = { 'name' : 'git/version control' }
 let g:lmap.j = { 'name' : 'jump' }
+let g:lmap.m = { 'name' : 'easymotion'}
 let g:lmap.t = { 'name' : 'toggle' }
 let g:lmap.x = { 'name' : 'text' }
 let g:lmap.x.a = { 'name' : 'align' }
-
 " 'name' is a special field. It will define the name of the group.
 " leader-f is the "File Menu" group.
 " Unnamed groups will show a default string
 
+" easy-motion
+let g:lmap.m['f'] = ['<Plugin>(easymotion-s)', 'Find char to bidirection']
+let g:lmap.m['l'] = ['<Plugin>(easymotion-bd-jk)', 'move to line']
+let g:lmap.m['s'] = ['<Plugin>(easymotion-overwin-f2)', 'move to word (same to normal mode "s")']
+let g:lmap.m['w'] = ['<Plugin>(easymotion-bd-w)', 'move to word']
+let g:lmap.m['.'] = ['<Plugin>(easymotion-repeat)', 'repeat']
+
 " applications
-let g:lmap.a.u.a = [':UltiSnipsAddFiletypes', 'add file type to snippet']
-let g:lmap.a.u.e = [':UltiSnipsEdit', 'edit snippet']
+let g:lmap.a.u = { 'name' : 'UltiSnips',
+            \'a' : [':UltiSnipsAddFiletypes', 'add file type to snippet'],
+            \'e' : [':UltiSnipsEdit', 'edit snippet'],
+            \}
 
 " file related key mappings
 let g:lmap.f.d = [':NERDTreeToggle', 'Toggle NERDTree']
