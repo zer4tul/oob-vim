@@ -376,151 +376,6 @@ endif
 "}}}
 
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Key Mappings {{{1
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-
-" Exit insert mode without ESC. uncomment if you need it.
-"inoremap jk <Esc>
-
-nnoremap <leader>/ :Ack!<space>
-nnoremap <leader>] :TagbarToggle<CR>
-"nnoremap <leader><space> :call whitespace#strip_trailing()<CR>
-" nnoremap <leader>g :GitGutterToggle<CR>
-
-" reload vimrc
-noremap <silent> <leader>fR :source ~/.vimrc<CR>:filetype detect<CR>:exe ":echo 'vimrc reloaded'"<CR>
-" in case you forgot to sudo
-cnoremap w!! %!sudo tee > /dev/null %
-
-" Wrapped lines goes down/up to next row, rather than next line in file.
-noremap j gj
-noremap k gk
-
-" switch windows with two keystroks
-" from Ben Klein's post http://blog.unixphilosopher.com/2015/02/five-weird-vim-tricks.html
-noremap <C-h> <C-w>h
-noremap <C-j> <C-w>j
-noremap <C-k> <C-w>k
-noremap <C-l> <C-w>l
-
-" Define prefix dictionary
-let g:lmap = {}
-"let g:lmap = {
-"            \'m' : {'name' : 'easymotion'},
-"            \'a' : {'name' : 'applications'},
-"            \'c' : {'name' : 'comment'},
-"            \'e' : {'name' : 'errors'},
-"            \'f' : {'name' : 'file'},
-"            \'g' : {'name' : 'git/version control'},
-"            \'j' : {'name' : 'jump'},
-"            \'t' : {'name' : 'toggle'},
-"            \'x' : {'name' : 'text'},
-"            \}
-" Second level dictionaries:
-let g:lmap.a = { 'name' : 'applications' }
-let g:lmap.a.u = { 'name' : 'UltiSnips' }
-let g:lmap.c = { 'name' : 'comment' }
-let g:lmap.e = { 'name' : 'errors' }
-let g:lmap.f = { 'name' : 'file' }
-let g:lmap.g = { 'name' : 'git/version control' }
-let g:lmap.j = { 'name' : 'jump' }
-let g:lmap.m = { 'name' : 'easymotion'}
-let g:lmap.t = { 'name' : 'toggle' }
-let g:lmap.x = { 'name' : 'text' }
-let g:lmap.x.a = { 'name' : 'align' }
-" 'name' is a special field. It will define the name of the group.
-" leader-f is the "File Menu" group.
-" Unnamed groups will show a default string
-
-" easy-motion
-let g:lmap.m['f'] = ['<Plugin>(easymotion-s)', 'Find char to bidirection']
-let g:lmap.m['l'] = ['<Plugin>(easymotion-bd-jk)', 'move to line']
-let g:lmap.m['s'] = ['<Plugin>(easymotion-overwin-f2)', 'move to word (same to normal mode "s")']
-let g:lmap.m['w'] = ['<Plugin>(easymotion-bd-w)', 'move to word']
-let g:lmap.m['.'] = ['<Plugin>(easymotion-repeat)', 'repeat']
-
-" applications
-let g:lmap.a.u = { 'name' : 'UltiSnips',
-            \'a' : [':UltiSnipsAddFiletypes', 'add file type to snippet'],
-            \'e' : [':UltiSnipsEdit', 'edit snippet'],
-            \}
-
-" file related key mappings
-let g:lmap.f.d = [':NERDTreeToggle', 'Toggle NERDTree']
-let g:lmap.f.f = ['NERDTreeFind', 'Find in NERDTree']
-let g:lmap.f.R = ['source ~/.vimrc', 'reload vimrc']
-
-" error related key mappings
-let g:lmap.e.r = ['SyntasticReset', 'syntastic clear']
-let g:lmap.e.h = ['SyntasticInfo', 'describe checker']
-let g:lmap.e.n = [':call WrapCommand("down", "l")', 'previous error']
-let g:lmap.e.p = [':call WrapCommand("up", "l")', 'next error']
-
-" git related key mappings
-let g:lmap.g.b = [':Gblame', 'git blame']
-let g:lmap.g.c = [':Gcommit', 'git commit']
-let g:lmap.g.d = [':Gdiff', 'git diff']
-let g:lmap.g.l = [':Glog', 'git log']
-let g:lmap.g.p = [':Gpush', 'git push']
-let g:lmap.g.s = [':Gstatus', 'git status']
-let g:lmap.g.g = [':GitGutterToggle', 'Git gutter']
-
-" jump
-let g:lmap.j.d = [':YcmCompleter GoTo', 'jump to']
-let g:lmap.j.D = [':YcmCompleter GoToDeclaration', 'jump to']
-let g:lmap.j.f = [':CtrlPFunky', 'jump without ctag']
-let g:lmap.j.F = [':execute "CtrlPFunky " . expand("<cword>")', 'init a list by a word under cursor']
-let g:lmap.j.m = [':CtrlPMRU', 'most recent used']
-let g:lmap.j.b = [':CtrlPBuffer', 'jump to buffer']
-let g:lmap.j.p = [':CtrlP', 'ctrlp']
-let g:lmap.j.T = [':CtrlPClearCache', 'clear cache']
-
-" toggle settings
-let g:lmap.t.i = ['IndentGuidesToggle', 'toggle visualize indent']
-
-" text
-let g:lmap.x.a = {
-            \'name' : 'quick align',
-            \' ' : [':Tabularize /<Space>', 'align space'],
-            \'=' : [':Tabularize /=', 'align equal'],
-            \':' : [':Tabularize /:\zs', 'align colon'],
-            \'|' : [':Tabularize /<Bar>', 'align pipeline'],
-            \'"' : [':Tabularize /"', 'align quotation mark'],
-            \'#' : [':Tabularize /#', 'align sharp'],
-            \',' : [':Tabularize /,\zs', 'align comma'],
-            \}
-"let g:lmap.x.a = {
-"            \'name' : 'align',
-"            \'a' : [':EasyAlign', 'interactive align'],
-"            \' ' : [':EasyAlign *\\', 'align space'],
-    "            \'=' : [':EasyAlign *=', 'align equal'],
-"            \':' : [':EasyAlign *:', 'align colon'],
-"            \'|' : [':EasyAlign *<Bar>', 'align pipeline'],
-"            \'"' : [':EasyAlign *"', 'align quotation mark'],
-"            \'#' : [':EasyAlign *#', 'align sharp'],
-"            \}
-
-let g:leaderGuide_submode_mappings = {
-    \ '<C-C>': 'win_close',
-    \ '<C-F>': 'page_down',
-    \ '<C-B>': 'page_up'
-    \}
-
-augroup leader_guide_prevent
-    " for fugitive
-    autocmd FileType gitcommit  noremap <buffer> <leader> <Plug>leaderguide-buffer
-
-    " for tagbar
-    autocmd BufEnter __Tagbar__  noremap <buffer> <leader> <Plug>leaderguide-buffer
-augroup END
-
-call leaderGuide#register_prefix_descriptions('<Space>', 'g:lmap')
-nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
-vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
-
-"}}}
-
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " IMPORTANT!!!!!!!                                            "
@@ -528,9 +383,14 @@ vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Read plugin settings
-"if filereadable(expand("~/.vimrc.plugins"))
-"    source ~/.vimrc.plugins
-"endif
+if filereadable(expand('~/.vim/vimrc.plugins'))
+    source ~/.vim/vimrc.plugins
+endif
+
+" Read keybinding settings
+if filereadable(expand('~/.vim/vimrc.keybindings'))
+    source ~/.vim/vimrc.keybindings
+endif
 
 " Read local settings
 if filereadable(expand('~/.vimrc.local'))
