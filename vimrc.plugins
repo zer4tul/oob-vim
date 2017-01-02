@@ -4,8 +4,41 @@ scriptencoding utf-8
 " Plugin Settings {{{1
 """""""""""""""""""""""""""""""""""
 
-" syntastic {{{2
-
+" syntax-checkers {{{2
+if isdirectory(expand('~/.vim/plugged/ale'))
+    let g:ale_linters = { 
+                \   'sh' : ['shellcheck'],
+                \   'vim' : ['vint'],
+                \   'html' : ['tidy'],
+                \   'python' : ['flake8'],
+                \   'markdown' : ['mdl'],
+                \   'javascript' : ['eslint'],
+                \}
+    " If emoji not loaded, use default sign
+    try
+        let g:ale_sign_error = emoji#for('boom')
+        let g:ale_sign_warning = emoji#for('small_orange_diamond')
+    catch
+        " Use same sign and distinguish error and warning via different color
+        let g:ale_sign_error = '•' 
+        let g:ale_sign_warning = '•' 
+    endtry
+    let g:ale_echo_msg_format = '[#%linter%#] %s [%severity%]'
+    if has('gui_running')
+        let g:ale_echo_msg_error_str = 'Error'
+        let g:ale_echo_msg_warning_str = 'Warning'
+        let g:ale_statusline_format = [' E•%d', 'W•%d ', ' ⬥ OK ']
+    else
+        let g:ale_echo_msg_error_str = '✹ Error'
+        let g:ale_echo_msg_warning_str = '⚠ Warning'
+        let g:ale_statusline_format = ['X•%d ', '!•%d ', ' ✔ •OK ']
+    endif
+    augroup SPCACEVIM_ALELINT
+        autocmd!
+        autocmd User ALELint call lightline#update()
+    augroup END 
+else
+    " syntastic
     "let g:syntastic_error_symbol = '✘'
     let g:syntastic_error_symbol = 'X'
     "let g:syntastic_warning_symbol = '⚠'
@@ -50,6 +83,19 @@ scriptencoding utf-8
         endif
     endfunction
 
+
+    " <leader>ep and <leader>en go up and down the location list and wrap around
+
+
+    nnoremap <silent> <Leader>ec    <Plug>SyntasticReset
+    nnoremap <silent> <Leader>eh    <Plug>SyntasticInfo
+    nnoremap <Leader>ee :call ToggleErrors()<CR>
+    nnoremap <silent> <Leader>tS    <Plug>SyntasticToggleMode
+
+    " disable java checking
+    " thanks to @marsqing, see https://github.com/wklken/k-vim/issues/164
+    let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
+endif
     " wrap :cnext/:cprevious and :lnext/:lprevious
     " from
     " :http://stackoverflow.com/questions/27198612/vim-location-list-how-to-go-to-first-location-if-at-last-location/27204000#27204000
@@ -70,20 +116,8 @@ scriptencoding utf-8
             endtry
         endif
     endfunction
-
-    " <leader>ep and <leader>en go up and down the location list and wrap around
-
-
-    nnoremap <silent> <Leader>ec    <Plug>SyntasticReset
-    nnoremap <silent> <Leader>eh    <Plug>SyntasticInfo
     nnoremap <silent> <leader>ep :call WrapCommand('up', 'l')<CR>
     nnoremap <silent> <leader>en  :call WrapCommand('down', 'l')<CR>
-    nnoremap <Leader>ee :call ToggleErrors()<CR>
-    nnoremap <silent> <Leader>tS    <Plug>SyntasticToggleMode
-
-    " disable java checking
-    " thanks to @marsqing, see https://github.com/wklken/k-vim/issues/164
-    let g:syntastic_mode_map = {'mode': 'active', 'passive_filetypes': ['java'] }
 " }}}
 
 " YouCompleteMe {{{2
@@ -501,23 +535,25 @@ else
     let g:lightline = {
                 \ 'active': {
                 \ 'colorscheme': g:colors_name,
-                \   'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
-                \   'right': [ [ 'syntastic', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
+                \ 'left': [ [ 'mode', 'paste' ], [ 'fugitive', 'filename' ], ['ctrlpmark'] ],
+                \ 'right': [ [ 'syntastic', 'ale', 'lineinfo' ], ['percent'], [ 'fileformat', 'fileencoding', 'filetype' ] ]
                 \ },
                 \ 'component_function': {
-                \   'fugitive': 'LightlineFugitive',
-                \   'filename': 'LightlineFilename',
-                \   'fileformat': 'LightlineFileformat',
-                \   'filetype': 'LightlineFiletype',
-                \   'fileencoding': 'LightlineFileencoding',
-                \   'mode': 'LightlineMode',
-                \   'ctrlpmark': 'CtrlPMark',
+                \ 'fugitive': 'LightlineFugitive',
+                \ 'filename': 'LightlineFilename',
+                \ 'fileformat': 'LightlineFileformat',
+                \ 'filetype': 'LightlineFiletype',
+                \ 'fileencoding': 'LightlineFileencoding',
+                \ 'mode': 'LightlineMode',
+                \ 'ctrlpmark': 'CtrlPMark',
                 \ },
                 \ 'component_expand': {
-                \   'syntastic': 'SyntasticStatuslineFlag',
+                \ 'syntastic': 'SyntasticStatuslineFlag',
+                \ 'ale': 'ALEGetStatusLine',
                 \ },
                 \ 'component_type': {
                 \   'syntastic': 'error',
+                \   'ale': 'error',
                 \ },
                 \ 'separator': { 'left': '❯', 'right': '❮' },
                 \ 'subseparator': { 'left': '〉', 'right': '〈' }
@@ -647,6 +683,9 @@ else
     let g:vimfiler_force_overwrite_statusline = 0
     let g:vimshell_force_overwrite_statusline = 0
 endif
+
+call LightlineSwitchTheme(g:colors_name)
+
 " }}}
 
 

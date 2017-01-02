@@ -40,7 +40,11 @@ call plug#begin('~/.vim/plugged')
 """""""""""""""""""""""""""""""
 " syntastic {{{2
 """""""""""""""""""""""""""""""
-Plug 'scrooloose/syntastic'
+if v:version >= 800 || has('nvim')
+    Plug 'w0rp/ale'
+else
+    Plug 'scrooloose/syntastic'
+endif
 
 "}}}
 
