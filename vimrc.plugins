@@ -75,9 +75,9 @@ else
     let g:syntastic_loc_list_height = 5
 
     function! ToggleErrors()
-        let old_last_winnr = winnr('$')
+        let l:old_last_winnr = winnr('$')
         lclose
-        if old_last_winnr == winnr('$')
+        if l:old_last_winnr == winnr('$')
             " Nothing was closed, open syntastic_error location panel
             Errors
         endif
@@ -343,13 +343,13 @@ endif
     inoremap <silent> <Bar>   <Bar><Esc>:call <SID>align()<CR>a
 
     function! s:align()
-      let p = '^\s*|\s.*\s|\s*$'
-      if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# p || getline(line('.')+1) =~# p)
-        let column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
-        let position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
+      let l:p = '^\s*|\s.*\s|\s*$'
+      if exists(':Tabularize') && getline('.') =~# '^\s*|' && (getline(line('.')-1) =~# l:p || getline(line('.')+1) =~# l:p)
+        let l:column = strlen(substitute(getline('.')[0:col('.')],'[^|]','','g'))
+        let l:position = strlen(matchstr(getline('.')[0:col('.')],'.*|\s*\zs.*'))
         Tabularize/|/l1
         normal! 0
-        call search(repeat('[^|]*|',column).'\s\{-\}'.repeat('.',position),'ce',line('.'))
+        call search(repeat('[^|]*|',l:column).'\s\{-\}'.repeat('.',l:position),'ce',line('.'))
       endif
     endfunction
 
@@ -579,32 +579,32 @@ else
     endfunction
 
     function! LightlineModified()
-        return &ft =~ 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
+        return &filetype =~? 'help' ? '' : &modified ? '+' : &modifiable ? '' : '-'
     endfunction
 
     function! LightlineReadonly()
-        return &ft !~? 'help' && &readonly ? '' : ''
+        return &filetype !~? 'help' && &readonly ? '' : ''
     endfunction
 
     function! LightlineFilename()
-        let fname = expand('%:t')
-        return fname == 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
-                    \ fname == '__Tagbar__' ? g:lightline.fname :
-                    \ fname =~ '__Gundo\|NERD_tree' ? '' :
-                    \ &ft == 'vimfiler' ? vimfiler#get_status_string() :
-                    \ &ft == 'unite' ? unite#get_status_string() :
-                    \ &ft == 'vimshell' ? vimshell#get_status_string() :
-                    \ ('' != LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
-                    \ ('' != fname ? fname : '[No Name]') .
-                    \ ('' != LightlineModified() ? ' ' . LightlineModified() : '')
+        let l:fname = expand('%:t')
+        return l:fname ==? 'ControlP' && has_key(g:lightline, 'ctrlp_item') ? g:lightline.ctrlp_item :
+                    \ l:fname ==? '__Tagbar__' ? g:lightline.fname :
+                    \ l:fname =~? '__Gundo\|NERD_tree' ? '' :
+                    \ &filetype ==? 'vimfiler' ? vimfiler#get_status_string() :
+                    \ &filetype ==? 'unite' ? unite#get_status_string() :
+                    \ &filetype ==? 'vimshell' ? vimshell#get_status_string() :
+                    \ ('' !=? LightlineReadonly() ? LightlineReadonly() . ' ' : '') .
+                    \ ('' !=? l:fname ? l:fname : '[No Name]') .
+                    \ ('' !=? LightlineModified() ? ' ' . LightlineModified() : '')
     endfunction
 
     function! LightlineFugitive()
         try
-            if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &ft !~? 'vimfiler' && exists('*fugitive#head')
-                let mark = ''  " edit here for cool mark
-                let branch = fugitive#head()
-                return branch !=# '' ? mark.branch : ''
+            if expand('%:t') !~? 'Tagbar\|Gundo\|NERD' && &filetype !~? 'vimfiler' && exists('*fugitive#head')
+                let l:mark = ''  " edit here for cool mark
+                let l:branch = fugitive#head()
+                return l:branch !=# '' ? l:mark.branch : ''
             endif
         catch
         endtry
@@ -620,24 +620,24 @@ else
     endfunction
 
     function! LightlineFileencoding()
-        return winwidth(0) > 70 ? (&fenc !=# '' ? &fenc : &enc) : ''
+        return winwidth(0) > 70 ? (&fileencoding !=# '' ? &fileencoding : &encoding) : ''
     endfunction
 
     function! LightlineMode()
-        let fname = expand('%:t')
-        return fname == '__Tagbar__' ? 'Tagbar' :
-                    \ fname == 'ControlP' ? 'CtrlP' :
-                    \ fname == '__Gundo__' ? 'Gundo' :
-                    \ fname == '__Gundo_Preview__' ? 'Gundo Preview' :
-                    \ fname =~ 'NERD_tree' ? 'NERDTree' :
-                    \ &ft == 'unite' ? 'Unite' :
-                    \ &ft == 'vimfiler' ? 'VimFiler' :
-                    \ &ft == 'vimshell' ? 'VimShell' :
+        let l:fname = expand('%:t')
+        return l:fname ==? '__Tagbar__' ? 'Tagbar' :
+                    \ l:fname ==? 'ControlP' ? 'CtrlP' :
+                    \ l:fname ==? '__Gundo__' ? 'Gundo' :
+                    \ l:fname ==? '__Gundo_Preview__' ? 'Gundo Preview' :
+                    \ l:fname =~? 'NERD_tree' ? 'NERDTree' :
+                    \ &filetype ==? 'unite' ? 'Unite' :
+                    \ &filetype ==? 'vimfiler' ? 'VimFiler' :
+                    \ &filetype ==? 'vimshell' ? 'VimShell' :
                     \ winwidth(0) > 60 ? lightline#mode() : ''
     endfunction
 
     function! CtrlPMark()
-        if expand('%:t') =~ 'ControlP' && has_key(g:lightline, 'ctrlp_item')
+        if expand('%:t') =~? 'ControlP' && has_key(g:lightline, 'ctrlp_item')
             call lightline#link('iR'[g:lightline.ctrlp_regex])
             return lightline#concatenate([g:lightline.ctrlp_prev, g:lightline.ctrlp_item
                         \ , g:lightline.ctrlp_next], 0)
@@ -731,8 +731,8 @@ call LightlineSwitchTheme(g:colors_name)
     nmap <leader>fd :NERDTreeToggle<CR>
     nmap <leader>ff :NERDTreeFind<CR>
     "map <leader>n :NERDTreeToggle<CR>
-    let NERDTreeHighlightCursorline=1
-    let NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+    let l:NERDTreeHighlightCursorline=1
+    let l:NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
     "close vim if the only window left open is a NERDTree
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
     " s/v 分屏打开文件
@@ -870,7 +870,7 @@ call LightlineSwitchTheme(g:colors_name)
     " }}}
 
     " pythonsyntax {{{2
-    let python_highlight_all = 1
+    let l:python_highlight_all = 1
     " }}}
 
 

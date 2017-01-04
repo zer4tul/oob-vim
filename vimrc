@@ -15,12 +15,12 @@ set fileencodings=ucs-bom,utf-8,cp936,euc-cn,big5,cp932,euc-jp,latin1 " try file
 "}}}
 
 "let mapleader = ','
-let mapleader = "\<Space>"
+let g:mapleader = '\<Space>'
 
 
 " don't bother with vi compatibility, default is off when $HOME/.vimrc or
-" .gvimrc exists. just ensure.
-set nocompatible
+" .gvimrc exists.
+"set nocompatible
 
 
 " Identify platform {{{2
@@ -55,15 +55,15 @@ endif
 
 " Initialize directories {{{2
 function! InitializeDirectories()
-    let parent = $HOME
-    let prefix = 'vim'
-    let dir_list = {
+    let l:parent = $HOME
+    let l:prefix = 'vim'
+    let l:dir_list = {
                 \ 'backup': 'backupdir',
                 \ 'views': 'viewdir',
                 \ 'swap': 'directory' }
 
     if has('persistent_undo')
-        let dir_list['undo'] = 'undodir'
+        let l:dir_list['undo'] = 'undodir'
     endif
 
     " To specify a different directory in which to place the vimbackup,
@@ -72,24 +72,24 @@ function! InitializeDirectories()
     "   let g:consolidated_directory = <full path to desired directory>
     "   eg: let g:consolidated_directory = $HOME . '/.vim/'
     if exists('g:consolidated_directory')
-        let common_dir = g:consolidated_directory . prefix
+        let l:common_dir = g:consolidated_directory . l:prefix
     else
-        let common_dir = parent . '/.' . prefix
+        let l:common_dir = l:parent . '/.' . l:prefix
     endif
 
-    for [dirname, settingname] in items(dir_list)
-        let directory = common_dir . dirname . '/'
+    for [l:dirname, l:settingname] in items(l:dir_list)
+        let l:directory = l:common_dir . l:dirname . '/'
         if exists('*mkdir')
-            if !isdirectory(directory)
-                call mkdir(directory)
+            if !isdirectory(l:directory)
+                call mkdir(l:directory)
             endif
         endif
-        if !isdirectory(directory)
-            echo 'Warning: Unable to create backup directory: ' . directory
-            echo 'Try: mkdir -p ' . directory
+        if !isdirectory(l:directory)
+            echo 'Warning: Unable to create backup directory: ' . l:directory
+            echo 'Try: mkdir -p ' . l:directory
         else
-            let directory = substitute(directory, ' ', '\\\\ ', 'g')
-            exec 'set ' . settingname . '=' . directory
+            let l:directory = substitute(l:directory, ' ', '\\\\ ', 'g')
+            exec 'set ' . l:settingname . '=' . l:directory
         endif
     endfor
 endfunction
