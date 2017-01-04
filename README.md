@@ -24,9 +24,8 @@ It makes Vim works out of the box for Unix-like systems, and **maybe** on Window
     git clone http://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
 
 ## Automatic Installation (TODO):
-    ```bash
-    curl https://raw.github.com/zer4tul/oom-vim/master/bootstrap.sh -L -o - | sh
-    ```
+
+    TODO
 
 ## Note:
 
