@@ -1,5 +1,7 @@
 # Out of Box VIM Configration
 
+[![Build Status](https://travis-ci.org/zer4tul/oob-vim.svg?branch=master)](https://travis-ci.org/zer4tul/oob-vim)
+
 ## Description
 
 oob-vim is a set of configurations for Vim, [NeoVim][Neovim], Gvim and [MacVim].
