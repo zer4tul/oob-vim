@@ -4,5 +4,3 @@ cmdargs:
 
   # Enable coloring
   color: true
-  vint vimrc
-  vint vimrc.*
