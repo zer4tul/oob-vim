@@ -684,8 +684,10 @@ else
     let g:vimshell_force_overwrite_statusline = 0
 endif
 
-call LightlineSwitchTheme(g:colors_name)
-
+augroup LIGHTLINE_INIT
+    autocmd!
+    autocmd VimEnter * call LightlineSwitchTheme(g:colors_name)
+augroup END
 " }}}
 
 
@@ -731,8 +733,8 @@ call LightlineSwitchTheme(g:colors_name)
     nmap <leader>fd :NERDTreeToggle<CR>
     nmap <leader>ff :NERDTreeFind<CR>
     "map <leader>n :NERDTreeToggle<CR>
-    let l:NERDTreeHighlightCursorline=1
-    let l:NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
+    let g:NERDTreeHighlightCursorline=1
+    let g:NERDTreeIgnore=[ '\.pyc$', '\.pyo$', '\.obj$', '\.o$', '\.so$', '\.egg$', '^\.git$', '^\.svn$', '^\.hg$' ]
     "close vim if the only window left open is a NERDTree
     autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | end
     " s/v 分屏打开文件
@@ -870,7 +872,7 @@ call LightlineSwitchTheme(g:colors_name)
     " }}}
 
     " pythonsyntax {{{2
-    let l:python_highlight_all = 1
+    let g:python_highlight_all = 1
     " }}}
 
 
