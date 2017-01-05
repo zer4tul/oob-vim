@@ -730,6 +730,10 @@ augroup END
     " 
 
     " nerdtree {{{2
+    " On startup, focus NERDTree if opening a directory
+    " focus file if opening a file
+    let g:nerdtree_tabs_smart_startup_focus = 1
+
     nmap <leader>fd :NERDTreeToggle<CR>
     nmap <leader>ff :NERDTreeFind<CR>
     "map <leader>n :NERDTreeToggle<CR>
@@ -747,7 +751,7 @@ augroup END
         " on opening a directory
         autocmd StdinReadPre * let s:std_in=1
         autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
-        autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | enew | endif
+        autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | enew | exe 'NERDTreeFocus' | endif
         " close vim if the only window left open is NERDTree
         autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
     augroup END
