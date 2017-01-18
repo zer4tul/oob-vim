@@ -55,8 +55,14 @@ endif
 
 " Initialize directories {{{2
 function! InitializeDirectories()
-    let l:parent = $HOME
-    let l:prefix = 'vim'
+    let l:home = $HOME
+    let l:parent = '.local/share/'
+    if has('nvim')
+        let l:prefix = 'nvim'
+    else
+        let l:prefix = 'vim'
+    endif
+
     let l:dir_list = {
                 \ 'backup': 'backupdir',
                 \ 'views': 'viewdir',
@@ -74,14 +80,14 @@ function! InitializeDirectories()
     if exists('g:consolidated_directory')
         let l:common_dir = g:consolidated_directory . l:prefix
     else
-        let l:common_dir = l:parent . '/.' . l:prefix
+        let l:common_dir = l:home . '/' . l:parent . '/' . l:prefix . '/'
     endif
 
     for [l:dirname, l:settingname] in items(l:dir_list)
         let l:directory = l:common_dir . l:dirname . '/'
         if exists('*mkdir')
             if !isdirectory(l:directory)
-                call mkdir(l:directory)
+                call mkdir(l:directory, 'p')
             endif
         endif
         if !isdirectory(l:directory)
@@ -97,8 +103,8 @@ call InitializeDirectories()
 "}}}
 
 " configure plugin manager & install plugins
-if filereadable(expand('~/.vim/vimrc.bundles'))
-    source ~/.vim/vimrc.bundles
+if filereadable(expand('~/.oob-vim/vimrc.bundles'))
+    source ~/.oob-vim/vimrc.bundles
 endif
 
 "}}}
@@ -149,6 +155,8 @@ set incsearch                                                " Find as you type 
 set hidden                                                   " When a buffer becomes hidden when it is abandoned
 set magic                                                    " It is recommended to always keep the 'magic' option at the default
                                                              " setting, which is 'magic'.  This avoids portability problems.
+set undofile
+set undolevels=1000
 "}}}
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -378,13 +386,13 @@ endif
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Read plugin settings
-if filereadable(expand('~/.vim/vimrc.plugins'))
-    source ~/.vim/vimrc.plugins
+if filereadable(expand('~/.oob-vim/vimrc.plugins'))
+    source ~/.oob-vim/vimrc.plugins
 endif
 
 " Read keybinding settings
-if filereadable(expand('~/.vim/vimrc.keybindings'))
-    source ~/.vim/vimrc.keybindings
+if filereadable(expand('~/.oob-vim/vimrc.keybindings'))
+    source ~/.oob-vim/vimrc.keybindings
 endif
 
 " Read local settings

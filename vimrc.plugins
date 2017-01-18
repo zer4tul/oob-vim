@@ -4,6 +4,7 @@ scriptencoding utf-8
 " Plugin Settings {{{1
 """""""""""""""""""""""""""""""""""
 
+
 " syntax-checkers {{{2
 if isdirectory(expand('~/.vim/plugged/ale'))
     let g:ale_linters = { 
@@ -353,8 +354,18 @@ endif
       endif
     endfunction
 
-" vim-indent-guides {{{2
-nmap <silent> <Leader>ti <Plug>IndentGuidesToggle
+"" vim-indent-guides {{{2
+"nmap <silent> <Leader>ti <Plug>IndentGuidesToggle
+
+" indentLine {{{2
+let g:indentLine_color_term = 239
+let g:indentLine_color_gui = '#09AA08'
+let g:indentLine_char = '¦'
+let g:indentLine_concealcursor = 'niv' " (default 'inc')
+let g:indentLine_conceallevel = 2  " (default 2)
+let g:indentLine_fileTypeExclude = ['help', 'startify', 'vimfiler']
+nmap <silent> <Leader>ti <Plug>IndentLinesToggle
+" }}}
 
 "the percent at which the highlight colors will be lightened or darkened.
 let g:indent_guides_color_change_percent  = 30
@@ -478,8 +489,6 @@ let g:indent_guides_default_mapping       = 0
         \ }
 " }}}
 
-" git.  git操作还是习惯命令行,vim里面处理简单diff编辑操作
-
 " fugitive {{{2
     " :Gdiff  :Gstatus :Gvsplit
     " not ready to open
@@ -507,7 +516,7 @@ let g:indent_guides_default_mapping       = 0
     elseif has('python')"
         let g:gundo_prefer_python3 = 1
     endif
-    noremap <leader>h :GundoToggle<CR>
+    noremap <leader>tu :GundoToggle<CR>
 " }}}
 
 " ack ( default use ag if exists ) {{{2
@@ -750,7 +759,7 @@ augroup END
         " open a NERDTree if vim starts up with no files were specified or
         " on opening a directory
         autocmd StdinReadPre * let s:std_in=1
-        autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+        "autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
         autocmd VimEnter * if argc() == 1 && isdirectory(argv()[0]) && !exists("s:std_in") | exe 'NERDTree' argv()[0] | wincmd p | enew | exe 'NERDTreeFocus' | endif
         " close vim if the only window left open is NERDTree
         autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif

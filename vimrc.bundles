@@ -28,11 +28,24 @@ filetype off " REQUIRED! ensure filetype is off
 " php
 " ycm or neocomplete
 " airline or lightline
+
+" Download vim-plug if unavailable
+if has('nvim') && empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
+    echo '==> Downloading vim-plug ......'
+    execute '!curl -sSfLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+elseif empty(glob('~/.vim/autoload/plug.vim'))
+    echo '==> Downloading vim-plug ......'
+    execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs
+                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+endif
+
 if !exists('g:bundle_groups')
     let g:bundle_groups=['python', 'json', 'markdown', 'html', 'css', 'tmux', 'neocomplete', 'lightline']
 endif
 
 call plug#begin('~/.vim/plugged')
+
 """""""""""""""""""""""""""""""
 " Generial {{{1
 """""""""""""""""""""""""""""""
@@ -172,8 +185,8 @@ Plug 'flazz/vim-colorschemes'
 Plug 'morhetz/gruvbox'
 
 " hilight indents
-Plug 'nathanaelkane/vim-indent-guides'
-"Plug 'Yggdroot/indentLine'
+"Plug 'nathanaelkane/vim-indent-guides'
+Plug 'Yggdroot/indentLine'
 
 " Object
 Plug 'michaeljsmith/vim-indent-object'
