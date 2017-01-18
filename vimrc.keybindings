@@ -75,7 +75,7 @@ let g:lmap.f.f = ['NERDTreeFind', 'Find in NERDTree']
 let g:lmap.f.R = ['source ~/.vimrc', 'reload vimrc']
 
 " error related key mappings
-let g:lmap.e.e = [':call ToggleErrors()', 'open error panel']
+"let g:lmap.e.e = [':call ToggleErrors()', 'open error panel']
 let g:lmap.e.r = ['SyntasticReset', 'syntastic clear']
 let g:lmap.e.h = ['SyntasticInfo', 'describe checker']
 let g:lmap.e.n = [':call WrapCommand("down", "l")', 'previous error']
@@ -141,9 +141,9 @@ augroup leader_guide_prevent
     autocmd BufEnter __Tagbar__  noremap <buffer> <leader> <Plug>leaderguide-buffer
 augroup END
 
-call leaderGuide#register_prefix_descriptions('<Space>', 'g:lmap')
-nnoremap <silent> <leader> :<c-u>LeaderGuide '<Space>'<CR>
-vnoremap <silent> <leader> :<c-u>LeaderGuideVisual '<Space>'<CR>
+call leaderGuide#register_prefix_descriptions(g:mapleader, 'g:lmap')
+nnoremap <silent> <leader> :<c-u>LeaderGuide g:mapleader<CR>
+vnoremap <silent> <leader> :<c-u>LeaderGuideVisual g:mapleader<CR>
 
 "}}}
 

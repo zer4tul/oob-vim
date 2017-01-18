@@ -15,7 +15,7 @@ set fileencodings=ucs-bom,utf-8,cp936,euc-cn,big5,cp932,euc-jp,latin1 " try file
 "}}}
 
 "let mapleader = ','
-let g:mapleader = '\<Space>'
+let g:mapleader = ' '
 
 
 " don't bother with vi compatibility, default is off when $HOME/.vimrc or
@@ -315,11 +315,6 @@ augroup filetype_python
     autocmd BufRead,BufNewFile *.py,*pyw set shiftwidth=4
     autocmd BufRead,BufNewFile *.py,*.pyw set expandtab
     autocmd BufRead,BufNewFile *.py set softtabstop=4
-
-    " Display tabs at the beginning of a line in Python mode as bad.
-    autocmd BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
-    " Make trailing whitespace be flagged as bad.
-    autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
     " Wrap text after a certain number of characters
     autocmd BufRead,BufNewFile *.py,*.pyw, set textwidth=100
