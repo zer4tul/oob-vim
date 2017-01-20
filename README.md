@@ -14,26 +14,43 @@ It makes Vim works out of the box for Unix-like systems, and **maybe** on Window
 
 ### Clone the Git Repo from github
 
-    git clone git://github.com/zer4tul/vim-config.git ~/.config/vim
+    git clone git://github.com/zer4tul/oob-vim.git ~/.oob-vim
 
 ### Create symlinks
 
-    ln -s ~/.config/vim/vimrc ~/.vimrc
-    ln -s ~/.config/vim/vimrc.bundles ~/.vimrc.bundles
-    ln -s ~/.config/vim/vimrc.plugins ~/.vimrc.plugins
+for vim:
 
-### Switch to the `~/.vim` directory, and fetch Vundle
+    ln -s ~/.oob-vim ~/.vim
 
-    cd ~/.vim
-    git clone http://github.com/gmarik/vundle.git $HOME/.vim/bundle/vundle
+for NeoVim
 
-## Automatic Installation (TODO)
+    ln -s ~/.oob-vim ~/.config/nvim
 
-    TODO
+### Install plugins
 
-## Note
+for vim:
 
-* The installation method all above are ONLY FOR UNIX-LIKE SYSTEMS.
+    vim +PlugInstall +qa
+
+for NeoVim:
+
+    nvim +PlugInstall +qa
+
+## Automatic Installation
+
+Install oob-vim for both vim and NeoVim:
+
+    curl -sLf https://raw.githubusercontent.com/zer4tul/oob-vim/master/install.sh | bash
+
+Install oob-vim for vim:
+
+    curl -sLf https://raw.githubusercontent.com/zer4tul/oob-vim/master/install.sh | bash -- install vim
+
+Install oob-vim for NeoVim:
+
+    curl -sLf https://raw.githubusercontent.com/zer4tul/oob-vim/master/install.sh | bash -- install neovim
+
+**Note:** The installation method all above are ONLY FOR UNIX-LIKE SYSTEMS.
 
 ## Customization
 
