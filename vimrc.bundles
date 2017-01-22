@@ -149,7 +149,7 @@ endif
 
 if !exists('g:oob_in_nvim')
     " FIXME: will cause neovim crash:
-    " https://github.com/neovim/neovim/issues/5769
+    " https://github.com/neovim/neovim/issues/5902
     Plug 'haya14busa/incsearch.vim'
 endif
 
