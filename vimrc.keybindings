@@ -29,6 +29,7 @@ noremap <C-l> <C-w>l
 
 " Define prefix dictionary
 let g:lmap = {}
+let g:llmap = {}
 "let g:lmap = {
 "            \'m' : {'name' : 'easymotion'},
 "            \'a' : {'name' : 'applications'},
@@ -145,6 +146,12 @@ call leaderGuide#register_prefix_descriptions(g:mapleader, 'g:lmap')
 nnoremap <silent> <leader> :<c-u>LeaderGuide g:mapleader<CR>
 vnoremap <silent> <leader> :<c-u>LeaderGuideVisual g:mapleader<CR>
 
+if !exists('g:maplocalleader')
+    let g:maplocalleader = ','
+endif
+call leaderGuide#register_prefix_descriptions(g:maplocalleader, 'g:llmap')
+nnoremap <silent> <localleader> :<c-u>LeaderGuide g:maplocalleader<CR>
+vnoremap <silent> <localleader> :<c-u>LeaderGuideVisual g:maplocalleader<CR>
 "}}}
 
 " vim: ft=vim:fdm=marker:et:sw=4:

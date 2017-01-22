@@ -213,7 +213,7 @@ endif
 " markdown {{{2
 """""""""""""""""""""""""""""""
 if count(g:bundle_groups, 'markdown')
-    Plug 'plasticboy/vim-markdown', {'for': 'md'}
+    Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
     " https://github.com/suan/vim-instant-markdown
     " npm -g install instant-markdown-d
     " Plug 'suan/vim-instant-markdown'
@@ -226,6 +226,11 @@ if count(g:bundle_groups, 'markdown')
 
 endif
 "}}}
+
+" orgmode {{{2
+Plug 'jceb/vim-orgmode', {'for': 'org'}
+Plug 'tpope/vim-speeddating'
+" }}}
 
 """""""""""""""""""""""""""""""
 " golang {{{2

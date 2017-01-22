@@ -21,8 +21,8 @@ if isdirectory(expand('~/.vim/plugged/ale'))
         let g:ale_sign_warning = emoji#for('small_orange_diamond')
     catch
         " Use same sign and distinguish error and warning via different color
-        let g:ale_sign_error = '•' 
-        let g:ale_sign_warning = '•' 
+        let g:ale_sign_error = '•'
+        let g:ale_sign_warning = '•'
     endtry
     let g:ale_echo_msg_format = '[#%linter%#] %s [%severity%]'
     if has('gui_running')
