@@ -193,6 +193,10 @@ Plug 'michaeljsmith/vim-indent-object'
 
 " Keymap-display
 Plug 'hecal3/vim-leader-guide'
+
+" Distraction-free writing in Vim
+Plug 'junegunn/goyo.vim'
+Plug 'junegunn/limelight.vim'
 " }}}
 " }}}
 
@@ -222,8 +226,6 @@ if count(g:bundle_groups, 'markdown')
     " map <F12> :InstantMarkdownPreview<CR>
     " previews
     " markdown preview
-    Plug 'junegunn/goyo.vim', { 'for': 'markdown' }
-
 endif
 "}}}
 

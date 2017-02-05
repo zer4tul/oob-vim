@@ -105,6 +105,8 @@ let g:lmap.j.T = [':CtrlPClearCache', 'clear cache']
 let g:lmap.t.i = ['IndentGuidesToggle', 'toggle visualize indent']
 let g:lmap.t.t = ['TagbarToggle', 'toggle Tagbar']
 let g:lmap.t.S = ['SyntasticToggleMode', 'toggle syntastic mode between active / passive']
+let g:lmap.t.y = ['Goyo', 'toggle goyo mode']
+let g:lmap.t.L = ['Limelight', 'toggle Limelight mode']
 
 " text
 let g:lmap.x.a = {
