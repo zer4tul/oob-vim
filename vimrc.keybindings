@@ -4,6 +4,10 @@ scriptencoding utf-8
 " Key Mappings {{{1
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 
+"make < > shifts keep selection
+vnoremap < <gv
+vnoremap > >gv
+
 " Exit insert mode without ESC. uncomment if you need it.
 "inoremap jk <Esc>
 
