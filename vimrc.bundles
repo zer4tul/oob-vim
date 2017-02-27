@@ -147,11 +147,11 @@ if executable('ctags')
     Plug 'majutsushi/tagbar'
 endif
 
-if !exists('g:oob_in_nvim')
+"if !exists('g:oob_in_nvim')
     " FIXME: will cause neovim crash:
     " https://github.com/neovim/neovim/issues/5902
     Plug 'haya14busa/incsearch.vim'
-endif
+"endif
 
 " NERDTree
 "Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
@@ -339,7 +339,7 @@ endif
 """""""""""""""""""""""""""""""
 " macos {{{2
 """""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'macos')
+if Platform() == 'mac'
     " Dash.app ( OS X only )
     Plug 'rizzatti/dash.vim'
 endif

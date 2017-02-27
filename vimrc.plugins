@@ -728,11 +728,11 @@ augroup END
     " }}}
 
     " incsearch {{{2
-    if !exists('g:oob_in_nvim')
+""    if !exists('g:oob_in_nvim')
         map /  <Plug>(incsearch-forward)
         map ?  <Plug>(incsearch-backward)
         map g/ <Plug>(incsearch-stay)
-    endif
+""    endif
     " }}}
 
     " vim-leader-guide
