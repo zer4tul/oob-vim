@@ -41,7 +41,7 @@ elseif empty(glob('~/.vim/autoload/plug.vim'))
 endif
 
 if !exists('g:bundle_groups')
-    let g:bundle_groups=['python', 'json', 'markdown', 'html', 'css', 'tmux', 'neocomplete', 'lightline']
+    let g:bundle_groups=['python', 'json', 'markdown', 'golang', 'html', 'css', 'tmux', 'neocomplete', 'lightline']
 endif
 
 call plug#begin('~/.vim/plugged')
