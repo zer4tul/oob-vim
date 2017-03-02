@@ -241,7 +241,8 @@ if count(g:bundle_groups, 'golang')
     " 1. vim a.go
     " 2. :GoInstallBinaries
     " vim-go
-    Plug 'fatih/vim-go', {'do': ':GoInstallBinaries' , 'for': 'go'}
+    "Plug 'fatih/vim-go', {'do': ':GoInstallBinaries' , 'for': 'go'}
+    Plug 'fatih/vim-go', {'do': ':GoInstallBinaries' }
 endif
 "}}}
 
@@ -339,7 +340,7 @@ endif
 """""""""""""""""""""""""""""""
 " macos {{{2
 """""""""""""""""""""""""""""""
-if Platform() == 'mac'
+if Platform() ==# 'mac'
     " Dash.app ( OS X only )
     Plug 'rizzatti/dash.vim'
 endif
