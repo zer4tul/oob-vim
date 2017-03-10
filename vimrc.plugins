@@ -564,9 +564,11 @@ else
                 \   'syntastic': 'error',
                 \   'ale': 'error',
                 \ },
-                \ 'separator': { 'left': '❯', 'right': '❮' },
+                \ 'separator': { 'left': '', 'right': '' },
                 \ 'subseparator': { 'left': '〉', 'right': '〈' }
                 \ }
+                ""\ 'separator': { 'left': '❯', 'right': '❮' },
+                ""\ 'subseparator': { 'left': '〉', 'right': '〈' }
 
     "based on https://github.com/itchyny/lightline.vim/issues/104
     function! LightlineSwitchTheme(theme)
