@@ -2,6 +2,7 @@ autoload
 systags
 *~
 bundle
+bundles
 plugged
 .DS_Store
 *.pyc
