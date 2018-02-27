@@ -46,7 +46,8 @@ install_vim () {
         ln -s "$HOME/.oob-vim" "$HOME/.vim"
         echo -e "${BLUE}Installed oob-vim for vim${COL_RESET}"
     fi
-    vim +PlugInstall +qa
+#    vim +PlugInstall +qa
+    vim +call "dein#install" +qa
 }
 
 install_neovim () {
@@ -63,7 +64,7 @@ install_neovim () {
         ln -s "$HOME/.oob-vim" "$HOME/.config/nvim"
         echo -e "${BLUE}Installed oob-vim for neovim${COL_RESET}"
     fi
-    nvim +PlugInstall +qa
+    nvim +call "dein#install" +qa
 }
 
 uninstall_vim () {

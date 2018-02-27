@@ -975,6 +975,10 @@ augroup END
     " }}}
 
     " css {{{2
+    "In some cases you might want to change the filetype from scss to scss.css
+    "for example, if you want to use SnipMate's CSS snippets within your SCSS
+    " files. In this case, uncomment the following line.
+    " au BufRead,BufNewFile *.scss set filetype=scss.css
     " }}}
 
     "}}}

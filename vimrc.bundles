@@ -30,325 +30,327 @@ filetype off " REQUIRED! ensure filetype is off
 " airline or lightline
 
 " Download vim-plug if unavailable
-if has('nvim') && empty(glob('~/.local/share/nvim/site/autoload/plug.vim'))
-    echo '==> Downloading vim-plug ......'
-    execute '!curl -sSfLo ~/.local/share/nvim/site/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-elseif empty(glob('~/.vim/autoload/plug.vim'))
-    echo '==> Downloading vim-plug ......'
-    execute '!curl -fLo ~/.vim/autoload/plug.vim --create-dirs
-                \ https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-endif
+if isdirectory(expand('~/.vim/bundles/repos/github.com/Shougo/dein.vim'))
+    set runtimepath+=~/.vim/bundles/repos/github.com/Shougo/dein.vim
 
-if !exists('g:bundle_groups')
-    let g:bundle_groups=['python', 'json', 'markdown', 'golang', 'html', 'css', 'tmux', 'neocomplete', 'lightline']
-endif
-
-call plug#begin('~/.vim/plugged')
-
-"""""""""""""""""""""""""""""""
-" Generial {{{1
-"""""""""""""""""""""""""""""""
-
-"""""""""""""""""""""""""""""""
-" syntastic {{{2
-"""""""""""""""""""""""""""""""
-if v:version >= 800 || has('nvim')
-    Plug 'w0rp/ale'
-else
-    Plug 'scrooloose/syntastic'
-endif
-
-"}}}
-
-"""""""""""""""""""""""""""""""
-" auto complete {{{2
-"""""""""""""""""""""""""""""""
-"Plug 'Valloric/YouCompleteMe'
-"Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' , 'for': ['python', 'c', 'cpp'] }
-
-if count(g:bundle_groups, 'ycm') && !count(g:bundle_groups, 'neocomplete')
-    Plug 'Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' }
-    " Group dependencies, vim-snippets depends on ultisnips
-    " Snippets are separated from the engine.
-    Plug 'SirVer/ultisnips'
-elseif count(g:bundle_groups, 'neocomplete') && !count(g:bundle_groups, 'ycm')
-    if exists('g:oob_in_nvim')
-        Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    else
-        Plug 'Shougo/neocomplete.vim'
+    if !exists('g:bundle_groups')
+        let g:bundle_groups=['python', 'json', 'markdown', 'golang', 'html', 'css', 'tmux', 'neocomplete', 'lightline']
     endif
-    Plug 'Shougo/neosnippet'
-    Plug 'Shougo/neosnippet-snippets'
-endif
-Plug 'honza/vim-snippets'
 
-" 自动补全单引号，双引号等
-Plug 'Raimondi/delimitMate'
-" 自动补全html/xml标签
-Plug 'docunext/closetag.vim'
+    call dein#begin(expand('~/.vim/bundles'))
 
-"}}}
+    """""""""""""""""""""""""""""""
+    " Generial {{{1
+    """""""""""""""""""""""""""""""
 
-"""""""""""""""""""""""""""""""
-" quick editing {{{2
-"""""""""""""""""""""""""""""""
-" comment
-Plug 'scrooloose/nerdcommenter'
-" align
-Plug 'junegunn/vim-easy-align'
-Plug 'godlygeek/tabular'
-Plug 'vim-scripts/matchit.zip'
+    """""""""""""""""""""""""""""""
+    " syntastic {{{2
+    """""""""""""""""""""""""""""""
+    if v:version >= 800 || has('nvim')
+        call dein#add('w0rp/ale')
+    else
+        call dein#add('scrooloose/syntastic')
+    endif
 
-" Sublime alike multiple cursors supoort
-Plug 'terryma/vim-multiple-cursors'
+    "}}}
 
-" file location
-Plug 'ctrlpvim/ctrlp.vim' | Plug 'tacahiroy/ctrlp-funky'
+    """""""""""""""""""""""""""""""
+    " auto complete {{{2
+    """""""""""""""""""""""""""""""
+    "call dein#add('Valloric/YouCompleteMe')
+    "call dein#add('Valloric/YouCompleteMe', { 'do': './install.py --clang-completer' , 'for': ['python', 'c', 'cpp'] })
 
-" gundo: visualize your Vim undo tree
-if has('python') || has('python3')
-    Plug 'sjl/gundo.vim'
-endif
+    if count(g:bundle_groups, 'ycm') && !count(g:bundle_groups, 'neocomplete')
+        call dein#add('Valloric/YouCompleteMe')
+        " Group dependencies, vim-snippets depends on ultisnips
+        " Snippets are separated from the engine.
+        call dein#add('SirVer/ultisnips')
+    elseif count(g:bundle_groups, 'neocomplete') && !count(g:bundle_groups, 'ycm')
+        if exists('g:oob_in_nvim')
+            call dein#add('Shougo/deoplete.nvim')
+        else
+            call dein#add('Shougo/neocomplete.vim')
+        endif
+        call dein#add('Shougo/neosnippet')
+        call dein#add('Shougo/neosnippet-snippets')
+    endif
+    call dein#add('honza/vim-snippets')
 
-" endwise
-Plug 'tpope/vim-endwise'
-Plug 'tpope/vim-repeat' | Plug 'tpope/vim-surround'
-Plug 'tpope/vim-unimpaired'
+    " 自动补全单引号，双引号等
+    call dein#add('Raimondi/delimitMate')
+    " 自动补全html/xml标签
+    call dein#add('docunext/closetag.vim')
 
-" smart selection of the closest text object
-Plug 'gcmt/wildfire.vim'
+    "}}}
 
-" quick f/F
-Plug 'unblevable/quick-scope'
-Plug 'easymotion/vim-easymotion'
+    """""""""""""""""""""""""""""""
+    " quick editing {{{2
+    """""""""""""""""""""""""""""""
+    " comment
+    call dein#add('scrooloose/nerdcommenter')
+    " align
+    call dein#add('junegunn/vim-easy-align')
+    call dein#add('godlygeek/tabular')
+    call dein#add('vim-scripts/matchit.zip')
 
-" run commands quickly
-Plug 'thinca/vim-quickrun'
+    " Sublime alike multiple cursors supoort
+    call dein#add('terryma/vim-multiple-cursors')
 
-" ack/ag
-if executable('ack') || executable('ag')
-    Plug 'mileszs/ack.vim'
-endif
-"}}}
+    " file location
+    call dein#add('ctrlpvim/ctrlp.vim') | call dein#add('tacahiroy/ctrlp-funky')
 
-"""""""""""""""""""""""""""""""
-" git {{{2
-"""""""""""""""""""""""""""""""
-Plug 'tpope/vim-fugitive'
-Plug 'airblade/vim-gitgutter'
-"}}}
+    " gundo: visualize your Vim undo tree
+    if has('python') || has('python3')
+        call dein#add('sjl/gundo.vim')
+    endif
 
-"""""""""""""""""""""""""""""""
-" NAV {{{2
-"""""""""""""""""""""""""""""""
-" tagbar
-if executable('ctags')
-    Plug 'majutsushi/tagbar'
-endif
+    " endwise
+    call dein#add('tpope/vim-endwise')
+    call dein#add('tpope/vim-repeat') | call dein#add('tpope/vim-surround')
+    call dein#add('tpope/vim-unimpaired')
 
-"if !exists('g:oob_in_nvim')
-    " FIXME: will cause neovim crash:
-    " https://github.com/neovim/neovim/issues/5902
-    Plug 'haya14busa/incsearch.vim'
-"endif
+    " smart selection of the closest text object
+    call dein#add('gcmt/wildfire.vim')
 
-" NERDTree
-"Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-Plug 'scrooloose/nerdtree'
-Plug 'xuyuanp/nerdtree-git-plugin'
-" I dont use tabs, uncomment if you need to make nerdtree stick through tabs
-"Plug 'jistr/vim-nerdtree-tabs'
+    " quick f/F
+    call dein#add('unblevable/quick-scope')
+    call dein#add('easymotion/vim-easymotion')
 
-" ctrlspace
-"Plug 'vim-ctrlspace/vim-ctrlspace'
-"}}}
+    " run commands quickly
+    call dein#add('thinca/vim-quickrun')
 
-"""""""""""""""""""""""""""""""
-" UI/UX {{{2
-"""""""""""""""""""""""""""""""
-" rainbow parentheses
-Plug 'luochen1990/rainbow'
-"Plug 'junegunn/rainbow_parentheses'
+    " ack/ag
+    if executable('ack') || executable('ag')
+        call dein#add('mileszs/ack.vim')
+    endif
+    "}}}
 
-" Airline
-if count(g:bundle_groups, 'airline') && !count(g:bundle_groups, 'lightline')
-    Plug 'bling/vim-airline'
-    Plug 'vim-airline/vim-airline-themes'
+    """""""""""""""""""""""""""""""
+    " git {{{2
+    """""""""""""""""""""""""""""""
+    call dein#add('tpope/vim-fugitive')
+    call dein#add('airblade/vim-gitgutter')
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " NAV {{{2
+    """""""""""""""""""""""""""""""
+    " tagbar
+    if executable('ctags')
+        call dein#add('majutsushi/tagbar')
+    endif
+
+    "if !exists('g:oob_in_nvim')
+        " FIXME: will cause neovim crash:
+        " https://github.com/neovim/neovim/issues/5902
+        call dein#add('haya14busa/incsearch.vim')
+    "endif
+
+    " NERDTree
+    "call dein#add('scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+    call dein#add('scrooloose/nerdtree')
+    call dein#add('xuyuanp/nerdtree-git-plugin')
+    " I dont use tabs, uncomment if you need to make nerdtree stick through tabs
+    "call dein#add('jistr/vim-nerdtree-tabs')
+
+    " ctrlspace
+    "call dein#add('vim-ctrlspace/vim-ctrlspace')
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " UI/UX {{{2
+    """""""""""""""""""""""""""""""
+    " rainbow parentheses
+    call dein#add('luochen1990/rainbow')
+    "call dein#add('junegunn/rainbow_parentheses')
+
+    " Airline
+    if count(g:bundle_groups, 'airline') && !count(g:bundle_groups, 'lightline')
+        call dein#add('bling/vim-airline')
+        call dein#add('vim-airline/vim-airline-themes')
+    else
+        call dein#add('itchyny/lightline.vim')
+    endif
+
+    " Color schemes
+    call dein#add('chriskempson/base16-vim')
+    call dein#add('flazz/vim-colorschemes')
+    call dein#add('morhetz/gruvbox')
+
+    " hilight indents
+    "call dein#add('nathanaelkane/vim-indent-guides')
+    call dein#add('Yggdroot/indentLine')
+
+    " Object
+    call dein#add('michaeljsmith/vim-indent-object')
+
+    " Keymap-display
+    call dein#add('hecal3/vim-leader-guide')
+
+    " Distraction-free writing in Vim
+    call dein#add('junegunn/goyo.vim')
+    call dein#add('junegunn/limelight.vim')
+    " }}}
+    " }}}
+
+    " #################################
+    " Bundle Groups {{{1
+    " #################################
+    """""""""""""""""""""""""""""""
+    " tmux {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'tmux')
+        " tmux
+        " For tmux navigator Ctrl-hjkl
+        call dein#add('christoomey/vim-tmux-navigator')
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " markdown {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'markdown')
+        call dein#add('plasticboy/vim-markdown', {'on_ft': 'markdown'})
+        " https://github.com/suan/vim-instant-markdown
+        " npm -g install instant-markdown-d
+        " call dein#add('suan/vim-instant-markdown')
+        " let g:instant_markdown_slow = 1
+        " let g:instant_markdown_autostart = 0
+        " map <F12> :InstantMarkdownPreview<CR>
+        " previews
+        " markdown preview
+    endif
+    "}}}
+
+    " orgmode {{{2
+    call dein#add('jceb/vim-orgmode', {'on_ft': 'org'})
+    call dein#add('tpope/vim-speeddating')
+    " }}}
+
+    """""""""""""""""""""""""""""""
+    " golang {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'golang')
+        " 1. vim a.go
+        " 2. :GoInstallBinaries
+        " vim-go
+        "call dein#add('fatih/vim-go', {'do': ':GoInstallBinaries' , 'for': 'go'}
+        call dein#add('fatih/vim-go', {'on_ft': 'go'})
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " python {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'python')
+        " for python.vim syntax highlight
+        " pythonsyntax
+        call dein#add('hdima/python-syntax')
+        call dein#add('hynek/vim-python-pep8-indent')
+        call dein#add('Glench/Vim-Jinja2-Syntax')
+        "call dein#add('jmcantrell/vim-virtualenv')
+        "call dein#add('davidhalter/jedi-vim')
+        call dein#add('python-mode/python-mode', {'on_ft': 'python'})
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " php {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'php')
+        call dein#add('spf13/PIV')
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " ruby {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'ruby')
+        call dein#add('vim-ruby/vim-ruby')
+        call dein#add('tpope/vim-rails')
+        " dir / dar
+        call dein#add('nelstrom/vim-textobj-rubyblock')
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " common lisp {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'common listp')
+        call dein#add('kovisoft/slimv')
+    endif
+    " }}}
+    """""""""""""""""""""""""""""""
+    " json {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'json')
+        " json
+        call dein#add('elzr/vim-json', {'on_ft': 'json'})
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " html {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'html')
+        call dein#add('mattn/emmet-vim')
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " coffeescript {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'coffeescript')
+        call dein#add('kchmck/vim-coffee-script')
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " css {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'css')
+        call dein#add('ap/vim-css-color')
+        call dein#add('hail2u/vim-css3-syntax')
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " less {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'less')
+        call dein#add('groenewege/vim-less')
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " scss {{{2
+    """""""""""""""""""""""""""""""
+    if count(g:bundle_groups, 'scss')
+        call dein#add('cakebaker/scss-syntax.vim', {'on_ft': 'scss.css'})
+    endif
+    "}}}
+
+    """""""""""""""""""""""""""""""
+    " macos {{{2
+    """""""""""""""""""""""""""""""
+    if Platform() ==# 'mac'
+        " Dash.app ( OS X only )
+        call dein#add('rizzatti/dash.vim')
+    endif
+    "}}}
+
+    " Add plugins to &runtimepath
+    call dein#end()
+    call dein#save_state()
+    if dein#check_install()
+        call dein#install()
+    endif
 else
-    Plug 'itchyny/lightline.vim'
+    echo '==> Installing dein.vim ......'
+    execute '!curl -sSfLo ~/.cache/dein/install.sh --create-dirs
+                \ https://raw.githubusercontent.com/Shougo/dein.vim/master/bin/installer.sh'
+    execute '!sh ~/.cache/dein/install.sh ~/.vim/bundles/'
+
 endif
-
-" Color schemes
-Plug 'chriskempson/base16-vim'
-Plug 'flazz/vim-colorschemes'
-Plug 'morhetz/gruvbox'
-
-" hilight indents
-"Plug 'nathanaelkane/vim-indent-guides'
-Plug 'Yggdroot/indentLine'
-
-" Object
-Plug 'michaeljsmith/vim-indent-object'
-
-" Keymap-display
-Plug 'hecal3/vim-leader-guide'
-
-" Distraction-free writing in Vim
-Plug 'junegunn/goyo.vim'
-Plug 'junegunn/limelight.vim'
-" }}}
-" }}}
-
-" #################################
-" Bundle Groups {{{1
-" #################################
-"""""""""""""""""""""""""""""""
-" tmux {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'tmux')
-    " tmux
-    " For tmux navigator Ctrl-hjkl
-    Plug 'christoomey/vim-tmux-navigator'
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" markdown {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'markdown')
-    Plug 'plasticboy/vim-markdown', {'for': 'markdown'}
-    " https://github.com/suan/vim-instant-markdown
-    " npm -g install instant-markdown-d
-    " Plug 'suan/vim-instant-markdown'
-    " let g:instant_markdown_slow = 1
-    " let g:instant_markdown_autostart = 0
-    " map <F12> :InstantMarkdownPreview<CR>
-    " previews
-    " markdown preview
-endif
-"}}}
-
-" orgmode {{{2
-Plug 'jceb/vim-orgmode', {'for': 'org'}
-Plug 'tpope/vim-speeddating'
-" }}}
-
-"""""""""""""""""""""""""""""""
-" golang {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'golang')
-    " 1. vim a.go
-    " 2. :GoInstallBinaries
-    " vim-go
-    "Plug 'fatih/vim-go', {'do': ':GoInstallBinaries' , 'for': 'go'}
-    Plug 'fatih/vim-go', {'do': ':GoInstallBinaries' }
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" python {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'python')
-    " for python.vim syntax highlight
-    " pythonsyntax
-    Plug 'hdima/python-syntax'
-    Plug 'hynek/vim-python-pep8-indent'
-    Plug 'Glench/Vim-Jinja2-Syntax'
-    "Plug 'jmcantrell/vim-virtualenv'
-    "Plug 'davidhalter/jedi-vim'
-    Plug 'python-mode/python-mode', {'for': 'python'}
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" php {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'php')
-    Plug 'spf13/PIV'
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" ruby {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'ruby')
-    Plug 'vim-ruby/vim-ruby'
-    Plug 'tpope/vim-rails'
-    " dir / dar
-    Plug 'nelstrom/vim-textobj-rubyblock'
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" common lisp {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'common listp')
-    Plug 'kovisoft/slimv'
-endif
-" }}}
-"""""""""""""""""""""""""""""""
-" json {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'json')
-    " json
-    Plug 'elzr/vim-json', {'for': 'json'}
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" html {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'html')
-    Plug 'mattn/emmet-vim'
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" coffeescript {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'coffeescript')
-    Plug 'kchmck/vim-coffee-script'
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" css {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'css')
-    Plug 'ap/vim-css-color'
-    Plug 'hail2u/vim-css3-syntax'
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" less {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'less')
-    Plug 'groenewege/vim-less'
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" scss {{{2
-"""""""""""""""""""""""""""""""
-if count(g:bundle_groups, 'scss')
-    Plug 'cakebaker/scss-syntax.vim'
-endif
-"}}}
-
-"""""""""""""""""""""""""""""""
-" macos {{{2
-"""""""""""""""""""""""""""""""
-if Platform() ==# 'mac'
-    " Dash.app ( OS X only )
-    Plug 'rizzatti/dash.vim'
-endif
-"}}}
-
-" Add plugins to &runtimepath
-call plug#end()
-
-"}}}
 
 " vim: ft=vim:fdm=marker:et:sw=4:
