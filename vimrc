@@ -325,7 +325,7 @@ augroup filetype_python
     autocmd BufRead,BufNewFile *.py set softtabstop=4
 
     " Wrap text after a certain number of characters
-    autocmd BufRead,BufNewFile *.py,*.pyw, set textwidth=100
+    autocmd BufRead,BufNewFile *.py,*.pyw, set textwidth=78
 
     " Use UNIX (\n) line endings.
     autocmd BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
